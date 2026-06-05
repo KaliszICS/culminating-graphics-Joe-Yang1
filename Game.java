@@ -27,7 +27,7 @@ public class Game extends Application {
         launch(args);
     }
 
-    public Game(){
+    public void Menu(){
 
         menu = new JFrame();
         menu.setSize(800, 600);
@@ -63,11 +63,8 @@ public class Game extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'start'");
     }
 
 
 
 }
-
