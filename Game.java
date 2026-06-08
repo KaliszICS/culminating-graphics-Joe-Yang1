@@ -100,6 +100,7 @@ public class Game extends Application {
 
         
         
+        
         startButton.setOnAction(e -> stage.setScene(stages));
 
         settingButton.setOnAction(e -> stage.setScene(setting));
