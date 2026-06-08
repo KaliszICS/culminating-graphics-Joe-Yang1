@@ -81,9 +81,7 @@ public class Game extends Application {
 
         tutorial = new Scene(tutorialLayout, 900, 600);
 
-
-
-
+        
         startButton.setOnAction(e -> stage.setScene(stages));
 
         settingButton.setOnAction(e -> stage.setScene(setting));
