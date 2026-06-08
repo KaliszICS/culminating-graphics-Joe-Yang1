@@ -9,8 +9,11 @@ import javafx.stage.Stage;
 public class Game extends Application {
 
     Scene menu;
-    Scene game;
+    Scene stages;
     Scene setting;
+    Scene combat;
+    Scene tutorial;
+    Scene boss;
 
     @Override
     public void start(Stage stage){
@@ -31,20 +34,52 @@ public class Game extends Application {
 
 
         Label settingPage = new Label("Options");
-        settingPage. setStyle("-fx-font-size: 50;");
+        settingPage.setStyle("-fx-font-size: 50;");
 
         CheckBox tipsToggled = new CheckBox("Display tips");
 
         Button returButton = new Button("Return");
 
         VBox settingOptions = new VBox(25);
-        settingOptions.getChildren().addAll( settingPage, tipsToggled, returButton);
+        settingOptions.getChildren().addAll(settingPage, tipsToggled, returButton);
 
         setting = new Scene(settingOptions, 900, 600);
 
         
+        Label stageSelectionPage = new Label("Stage Selection Page");
+        stageSelectionPage.setStyle("-fx-font-size: 50;");
 
+        Button tutorialStage = new Button("Tutorial Stage");
+        tutorialStage.setStyle("-fx-font-size: 30;");
+
+        Button bossStage = new Button("Boss Stage");
+        bossStage.setStyle("-fx-font-size: 30;");
+
+        Button returnButton = new Button("Return");
+        returButton.setStyle("-fx-font-size: 30;");
+
+        VBox stageLayout = new VBox(25);
+        stageLayout.getChildren().addAll(tutorialStage, bossStage, returButton);
+
+        stages = new Scene(stageLayout, 900, 600);
+
+
+        Label gameStage = new Label("Tutorial Stage");
+        gameStage.setStyle("-fx-font-size: 50;");
+
+        Button basicAttack = new Button("Basic Attack");
+
+        Button specialAttack =  new Button("Special Attack");
+
+        Button ultimateAttack = new Button("Ultimate Attack");
+
+        VBox tutorialLayout = new VBox(25);
+        tutorialLayout.getChildren().addAll(basicAttack, specialAttack, ultimateAttack);
+
+        tutorial = new Scene(tutorialLayout, 900, 600);
     }
+    
+
     
     
 }
