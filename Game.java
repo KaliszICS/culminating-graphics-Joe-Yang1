@@ -41,8 +41,13 @@ public class Game extends Application {
         returnButton.setStyle("-fx-font-size: 30;");
 
         Button basicAttack = new Button("Basic Attack");
+        basicAttack.setStyle("-fx-font-size: 30;");
+
         Button specialAttack = new Button("Special Attack");
+        specialAttack.setStyle("-fx-font-size: 30;");
+
         Button ultimateAttack = new Button("Ultimate Attack");
+        ultimateAttack.setStyle("-fx-font-size: 30;");
 
         
         Label titlePage = new Label("Untitled");
@@ -129,42 +134,8 @@ public class Game extends Application {
         launch(args);
     }
 }
-    
-    // public void basicAttack() {
-        dummyHP = -20;
-        bossHP = -20 * stageBuffs;
-        startingSkillPoints = + 1;
-        startingEnergy = + 25;
-        playerAction = false;
-}
-}
-
-    public void specialAttack() {
-        if (startingSkillPoints > 0){
-            dummyHP = -30;
-            bossHP = -30 *stageBuffs;
-            startingSkillPoints = - 1;
-            startingEnergy = + 30;
-            playerAction = false;
-
-        }
-    }
-
-    public void ultimateAttack(){
-        if(startingEnergy == maxEnergy){
-            dummyHP = - 100;
-            bossHP = - 100 * stageBuffs;
-            startingEnergy = minEnergy;
-            
-            if (playerAction = false){
-                playerAction = false;
-            }
-        }
-    }
 
 
 
 
 
-
-}
