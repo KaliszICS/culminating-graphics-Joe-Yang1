@@ -23,6 +23,7 @@ public class Game extends Application {
     int minSkillPoints = 0;
     int maxSKillPoints = 5;
     int startingEnergy = 0;
+    int minEnergy = 0;
     int maxEnergy = 100;
     int basicAttackDmg = 20;
     int specialAttackDmg = 30;
@@ -31,6 +32,7 @@ public class Game extends Application {
     int ultimateAttackHeal = 100;
     int passiveBar = 0;
     double bossPhase2Buffs = 1.25;
+    boolean playerAction = true;
 
     @Override
     public void start(Stage stage){
@@ -115,11 +117,43 @@ public class Game extends Application {
         stage.show();
     }
 
+    public void basicAttack() {
+        dummyHP = -20;
+        bossHP = -20 * stageBuffs;
+        startingSkillPoints = + 1;
+        startingEnergy = + 25;
+        playerAction = false;
+    }
 
+    public void specialAttack() {
+        if (startingSkillPoints > 0){
+            dummyHP = -30;
+            bossHP = -30 *stageBuffs;
+            startingSkillPoints = - 1;
+            startingEnergy = + 30;
+            playerAction = false;
+
+        }
+    }
+
+    public void ultimateAttack(){
+        if(startingEnergy == maxEnergy){
+            dummyHP = - 100;
+            bossHP = - 100 * stageBuffs;
+            startingEnergy = minEnergy;
+            
+            if (playerAction = false){
+                playerAction = false;
+            }
+        }
+    }
+
+    
 
 
 
     public static void main(String[] args) {
         launch(args);
     }
+
 }
