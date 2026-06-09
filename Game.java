@@ -54,8 +54,12 @@ public class Game extends Application {
         Button settingButton = new Button("Settings");
         settingButton.setStyle("-fx-font-size: 30;");
 
+        Button exiButton = new Button("Exit");
+        exiButton.setOnAction(e -> {System.exit(0);
+        });
+
         VBox menuSpacing = new VBox(25);
-        menuSpacing.getChildren().addAll(titlePage, startButton, settingButton);
+        menuSpacing.getChildren().addAll(titlePage, startButton, settingButton, exiButton);
 
         menu = new Scene(menuSpacing, 900, 600);
 
@@ -100,8 +104,11 @@ public class Game extends Application {
         Label bossPage = new Label("Boss Stage");
         bossPage.setStyle("-fx-font-size: 50");
 
+        VBox bossLayout = new VBox(25);
+        bossLayout.getChildren().addAll(bossPage, basicAttack, specialAttack, ultimateAttack, returnButton);
         
-        
+        boss = new Scene(bossLayout, 900, 600);
+
         
         startButton.setOnAction(e -> stage.setScene(stages));
 
@@ -148,7 +155,7 @@ public class Game extends Application {
         }
     }
 
-    
+
 
 
 
