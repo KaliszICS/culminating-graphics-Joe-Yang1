@@ -21,7 +21,7 @@ public class Game extends Application {
     int stageBuffs = 4;
     int startingSkillPoints = 3;
     int minSkillPoints = 0;
-    int maxSKillPoints = 5;
+    int maxSkillPoints = 5;
     int startingEnergy = 0;
     int minEnergy = 0;
     int maxEnergy = 100;
@@ -33,6 +33,11 @@ public class Game extends Application {
     int passiveBar = 0;
     double bossPhase2Buffs = 1.25;
     boolean playerAction = true;
+    Label playerHpLabel;
+    Label bossHpLabel;
+    Label dummyHpLabel;
+    Label skillPointLabel;
+    Label energyLabel;
 
     @Override
     public void start(Stage stage){
@@ -47,6 +52,7 @@ public class Game extends Application {
         settingButton.setStyle("-fx-font-size: 30;");
 
         Button exitButton = new Button("Exit");
+        exitButton.setStyle("-fx-font-size: 30;");
         exitButton.setOnAction(e -> {System.exit(0);
         });
 
@@ -82,8 +88,13 @@ public class Game extends Application {
         Button rtButton = new Button("Return");
         rtButton.setStyle("-fx-font-size: 30;");
 
+        playerHpLabel = new Label("Player HP: " +playerHP);
+        dummyHpLabel = new Label("Dummy Hp: Inf");
+        skillPointLabel = new Label("Skill points: " + startingSkillPoints);
+        energyLabel = new Label("Energy: " + startingEnergy);
+
         VBox stageLayout = new VBox(25);
-        stageLayout.getChildren().addAll(stageSelectionPage, tutorialStage, bossStage, rtButton);
+        stageLayout.getChildren().addAll(stageSelectionPage, tutorialStage, bossStage, rtButton, playerHpLabel, skillPointLabel, dummyHpLabel, energyLabel);
 
         stages = new Scene(stageLayout, 900, 600);
 
@@ -135,11 +146,45 @@ public class Game extends Application {
 
         tutorialStage.setOnAction(e -> stage.setScene(tutorial));
 
+        rtButton.setOnAction(e -> stage.setScene(menu));
 
         stage.setTitle("Untitled");
         stage.setScene(menu);
         stage.show();
     }
+
+   public void basicAttack() {
+       dummyHP -=20;
+       bossHP -= 20 * stageBuffs;
+       startingSkillPoints += 1;
+       startingEnergy += 25;
+       playerAction = false;
+}
+
+   public void specialAttack() {
+       if (startingSkillPoints > 0){
+           dummyHP -= 30;
+           bossHP -= 30 *stageBuffs;
+           startingSkillPoints -= 1;
+           startingEnergy += 30;
+           playerAction = false;
+
+
+       }
+   }
+
+   public void ultimateAttack(){
+       if(startingEnergy == maxEnergy){
+           dummyHP -= 100;
+           bossHP -= 100 * stageBuffs;
+           startingEnergy = minEnergy;
+          
+           if (playerAction = false){
+               playerAction = false;
+           }
+       }
+   }
+
 
 
     public static void main(String[] args) {
