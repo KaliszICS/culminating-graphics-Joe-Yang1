@@ -124,13 +124,20 @@ public class Game extends Application {
         stage.show();
     }
 
-    public void basicAttack() {
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
+    
+    // public void basicAttack() {
         dummyHP = -20;
         bossHP = -20 * stageBuffs;
         startingSkillPoints = + 1;
         startingEnergy = + 25;
         playerAction = false;
-    }
+}
+}
 
     public void specialAttack() {
         if (startingSkillPoints > 0){
@@ -159,8 +166,5 @@ public class Game extends Application {
 
 
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 
 }
