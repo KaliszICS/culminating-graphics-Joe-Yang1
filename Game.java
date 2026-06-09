@@ -36,19 +36,6 @@ public class Game extends Application {
 
     @Override
     public void start(Stage stage){
-
-        Button returnButton = new Button("Return");
-        returnButton.setStyle("-fx-font-size: 30;");
-
-        Button basicAttack = new Button("Basic Attack");
-        basicAttack.setStyle("-fx-font-size: 30;");
-
-        Button specialAttack = new Button("Special Attack");
-        specialAttack.setStyle("-fx-font-size: 30;");
-
-        Button ultimateAttack = new Button("Ultimate Attack");
-        ultimateAttack.setStyle("-fx-font-size: 30;");
-
         
         Label titlePage = new Label("Untitled");
         titlePage.setStyle("-fx-font-size: 50;");
@@ -59,12 +46,12 @@ public class Game extends Application {
         Button settingButton = new Button("Settings");
         settingButton.setStyle("-fx-font-size: 30;");
 
-        Button exiButton = new Button("Exit");
-        exiButton.setOnAction(e -> {System.exit(0);
+        Button exitButton = new Button("Exit");
+        exitButton.setOnAction(e -> {System.exit(0);
         });
 
         VBox menuSpacing = new VBox(25);
-        menuSpacing.getChildren().addAll(titlePage, startButton, settingButton, exiButton);
+        menuSpacing.getChildren().addAll(titlePage, startButton, settingButton, exitButton);
 
         menu = new Scene(menuSpacing, 900, 600);
 
@@ -73,6 +60,9 @@ public class Game extends Application {
         settingPage.setStyle("-fx-font-size: 50;");
 
         CheckBox tipsToggled = new CheckBox("Display Tips");
+
+        Button returnButton = new Button("Return");
+        returnButton.setStyle("-fx-font-size: 30;");
 
         VBox settingOptions = new VBox(25);
         settingOptions.getChildren().addAll(settingPage, tipsToggled, returnButton);
@@ -89,19 +79,31 @@ public class Game extends Application {
         Button bossStage = new Button("Boss Stage");
         bossStage.setStyle("-fx-font-size: 30;");
 
+        Button rtButton = new Button("Return");
+        rtButton.setStyle("-fx-font-size: 30;");
 
         VBox stageLayout = new VBox(25);
-        stageLayout.getChildren().addAll(stageSelectionPage, tutorialStage, bossStage, returnButton);
+        stageLayout.getChildren().addAll(stageSelectionPage, tutorialStage, bossStage, rtButton);
 
         stages = new Scene(stageLayout, 900, 600);
 
 
         Label gameStage = new Label("Tutorial Stage");
+
         gameStage.setStyle("-fx-font-size: 50;");
+
+        Button basicAttack = new Button("Basic Attack");
+        basicAttack.setStyle("-fx-font-size: 30;");
+
+        Button specialAttack = new Button("Special Attack");
+        specialAttack.setStyle("-fx-font-size: 30;");
+
+        Button ultimateAttack = new Button("Ultimate Attack");
+        ultimateAttack.setStyle("-fx-font-size: 30;");
 
 
         VBox tutorialLayout = new VBox(25);
-        tutorialLayout.getChildren().addAll(gameStage, basicAttack, specialAttack, ultimateAttack, returnButton);
+        tutorialLayout.getChildren().addAll(gameStage, basicAttack, specialAttack, ultimateAttack);
 
         tutorial = new Scene(tutorialLayout, 900, 600);
 
@@ -109,8 +111,18 @@ public class Game extends Application {
         Label bossPage = new Label("Boss Stage");
         bossPage.setStyle("-fx-font-size: 50");
 
+        Button bAttack = new Button("Basic Attack");
+        bAttack.setStyle("-fx-font-size: 30;");
+
+        Button spAttack = new Button("Special Attack");
+        spAttack.setStyle("-fx-font-size: 30;");
+
+        Button ultAttack = new Button("Ultimate Attack");
+        ultAttack.setStyle("-fx-font-size: 30;");
+
+
         VBox bossLayout = new VBox(25);
-        bossLayout.getChildren().addAll(bossPage, basicAttack, specialAttack, ultimateAttack, returnButton);
+        bossLayout.getChildren().addAll(bossPage, bAttack, spAttack, ultAttack);
         
         boss = new Scene(bossLayout, 900, 600);
 
