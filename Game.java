@@ -139,8 +139,21 @@ public class Game extends Application {
         gameStage.setStyle("-fx-font-size: 50;");
 
         Button basicAttack = new Button("Basic Attack");
-        basicAttack.setStyle("-fx-font-size: 30;");
+        basicAttack.setShape(new javafx.scene.shape.Circle(55));
+        basicAttack.setStyle(
+            "-fx-alignment: center;" +
+            "-fx-text-fill: white;" +
+            "-fx-background-color: grey;" +
+            "-fx-border-color: black;" +
+            "-fx-border-width: 3;" +
+            "-fx-font-size: 8;"
+        );
 
+        basicAttack.setMinSize(70,70);
+        basicAttack.setPrefSize(70,70);
+        basicAttack.setMaxSize(70,70);
+
+        
         Button specialAttack = new Button("Special Attack");
         specialAttack.setShape(new javafx.scene.shape.Circle(55));
         specialAttack.setStyle(
@@ -152,9 +165,9 @@ public class Game extends Application {
             "-fx-font-size: 8;"
         );
 
-        specialAttack.setMinSize(60,60);
-        specialAttack.setPrefSize(60,60);
-        specialAttack.setMaxSize(60,60);
+        specialAttack.setMinSize(50,50);
+        specialAttack.setPrefSize(50,50);
+        specialAttack.setMaxSize(50,50);
 
         Button ultimateAttack = new Button("Ultimate Attack");
         ultimateAttack.setShape(new javafx.scene.shape.Circle(55));
