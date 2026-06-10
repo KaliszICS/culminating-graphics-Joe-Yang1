@@ -222,7 +222,10 @@ public class Game extends Application {
 
         damageUlt.setOnAction(e -> {
 
-            if (startingEnergy >= maxEnergy) {
+            if (startingEnergy < maxEnergy) {
+                System.out.println("Does not meet the energy requirement");
+                return;
+            }
 
                 dummyHP -= 300;
                 bossHP -= 300 * stageBuffs;
@@ -234,12 +237,16 @@ public class Game extends Application {
                 refreshUi();
 
                 stage.setScene(currentBattle);
-            }
+                refreshUi();
         });
+
 
         healingUlt.setOnAction(e -> {
 
-            if (startingEnergy >= maxEnergy) {
+            if (startingEnergy < maxEnergy) {
+                System.out.println("Does not meet the energy requirement");
+                return;
+            }
 
                 playerHP += 100;
 
@@ -248,7 +255,7 @@ public class Game extends Application {
                 refreshUi();
 
                 stage.setScene(currentBattle);
-            }
+                refreshUi();
         });
 
         stage.setScene(menu);
