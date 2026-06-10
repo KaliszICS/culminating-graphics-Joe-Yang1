@@ -340,11 +340,14 @@ public class Game extends Application {
             turnBar.setText("Turn: Boss");
         }
 
-        if(!playerAction == true && !passive == true){
-            nextTurn.setText("Next turn: Boss");
+        if(playerAction == true && passive == true){
+            nextTurn.setText("Next turn: Player");
+        }
+        else if(!playerAction == true && passive == true){
+            nextTurn.setText("Next turn: Player");
         }
         else{
-            nextTurn.setText("Next turn: Player");
+            nextTurn.setText("Next turn: Boss");
         }
         
     }
@@ -430,7 +433,7 @@ public class Game extends Application {
     if (currentBattle != boss) return;
 
     javafx.animation.PauseTransition delay =
-            new javafx.animation.PauseTransition(javafx.util.Duration.seconds(0.5));
+            new javafx.animation.PauseTransition(javafx.util.Duration.seconds(2));
 
     delay.setOnFinished(e -> {
 
