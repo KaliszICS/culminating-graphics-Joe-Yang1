@@ -458,6 +458,10 @@ public class Game extends Application {
         playerHP -= dmg;
 
         playerHP = Math.max(0, playerHP);
+
+        if (playerHP <= 0){
+            defeat();
+        }
     }
 
     public void bossSpAttack(){
