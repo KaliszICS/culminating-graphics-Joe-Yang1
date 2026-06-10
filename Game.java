@@ -51,7 +51,6 @@ public class Game extends Application {
     int bossBasicAttack = 50;
     int bossHeavyAttack = 75;
     int bossSpecialAttack = 200;
-    private boolean tipsToggled = true;
     boolean passive = false;
     boolean playerAction = true;
     boolean settingsFromBattle = false;
@@ -97,8 +96,7 @@ public class Game extends Application {
         Label settingPage = new Label("Options");
         settingPage.setStyle("-fx-font-size: 50;");
 
-        CheckBox tipsCheckBox = new CheckBox("Display Tips");
-        tipsCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {tipsToggled = newVal;});
+        CheckBox tipsCheckBox = new CheckBox("Display Tips");   
 
         Button returnButton = new Button("Return");
         returnButton.setStyle("-fx-font-size: 30;");
@@ -340,12 +338,13 @@ public class Game extends Application {
         bossEnergyLabel.setText("Energy: " + startingEnergy);
     }
 
+    // creates a basic attack for the player to use as an attack.
     public void basicAttack() {
 
-        if (!playerAction) return;
+        if (!playerAction) return; // if conditions aren't met, rest of the code does not run
         int dmg = basicAttackDmg;
 
-        if(currentBattle == tutorial){
+        if(currentBattle == tutorial){ // checks if the scene is the tutorial scene.
             dummyHP -= dmg;
             dummyHP = Math.max(0, dummyHP);
             startingSkillPoints = Math.min(startingSkillPoints + 1, maxSkillPoints);
@@ -366,6 +365,7 @@ public class Game extends Application {
         bossActions();
     }
 
+    // method to change turn labels to show the actions.
     public void changingTurns(){
 
         if (playerAction){
@@ -376,6 +376,7 @@ public class Game extends Application {
         }
     }
 
+    // method to change the passive label to the conditions of passiveAnnouncer.
     public void passiveAnnouncer(){
 
         if(passive == true){
@@ -386,13 +387,14 @@ public class Game extends Application {
         }
     }
 
+    // creates a special attack which checks if the player has enough skill points to use a skill ,etc.
     public void specialAttack() {
 
-        if (!playerAction) return;
-        if (startingSkillPoints <= minSkillPoints){
+        if (!playerAction) return; // if it is not the player's action, then the rest of the code does not run.
+        if (startingSkillPoints <= minSkillPoints){ 
             return;
         }
-        if (startingSkillPoints > minSkillPoints) {
+        if (startingSkillPoints > minSkillPoints) { // if skill points is greater than min skillpoints(0), the condition of the code runs the rest
             
             int dmg = specialAttackDmg;
 
@@ -400,9 +402,9 @@ public class Game extends Application {
                 dummyHP -= dmg;
                 dummyHP = Math.max(0, dummyHP);
                 startingSkillPoints--;
-                startingEnergy = Math.min(startingEnergy + 30, maxEnergy);
-                refreshUi();
-                return;
+                startingEnergy = Math.min(startingEnergy + 30, maxEnergy); // increases energy for ultimate charge
+                refreshUi(); //refreshes the labels
+                return; //ignores the code if the condition doesn't match
             }
 
             bossHP -= dmg * stageBuffs;
@@ -428,6 +430,7 @@ public class Game extends Application {
             bossActions();
         }
 
+        // method for boss's basic attack
     public void bossBAttack(){
 
             int dmg = bossBasicAttack;
