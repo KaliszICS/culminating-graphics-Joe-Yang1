@@ -50,6 +50,7 @@ public class Game extends Application {
     int bossBasicAttack = 50;
     int bossHeavyAttack = 75;
     int bossSpecialAttack = 200;
+    private boolean tipsToggled = true;
     boolean passive = false;
     boolean playerAction = true;
     boolean settingsFromBattle = false;
@@ -66,6 +67,7 @@ public class Game extends Application {
     Label bossEnergyLabel;
     Label passiveLabel;
     Label turnBar;
+    Label tips;
 
 
     @Override
@@ -92,13 +94,14 @@ public class Game extends Application {
         Label settingPage = new Label("Options");
         settingPage.setStyle("-fx-font-size: 50;");
 
-        CheckBox tipsToggled = new CheckBox("Display Tips");
+        CheckBox tipsCheckBox = new CheckBox("Display Tips");
+        tipsCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {tipsToggled = newVal;});
 
         Button returnButton = new Button("Return");
         returnButton.setStyle("-fx-font-size: 30;");
 
         VBox settingOptions = new VBox(25);
-        settingOptions.getChildren().addAll(settingPage, tipsToggled, returnButton);
+        settingOptions.getChildren().addAll(settingPage, tipsCheckBox, returnButton);
 
         setting = new Scene(settingOptions, 900, 600);
 
@@ -326,6 +329,7 @@ public class Game extends Application {
         int dmg = basicAttackDmg;
 
         if(currentBattle == tutorial){
+            dummyHP -= dmg;
             startingSkillPoints = Math.min(startingSkillPoints + 1, maxSkillPoints);
             startingEnergy = Math.min(startingEnergy + 25, maxEnergy);
             refreshUi();
@@ -372,6 +376,7 @@ public class Game extends Application {
             int dmg = specialAttackDmg;
 
             if(currentBattle == tutorial){
+                dummyHP -= dmg;
                 startingSkillPoints--;
                 startingEnergy = Math.min(startingEnergy + 30, maxEnergy);
                 refreshUi();
@@ -474,10 +479,52 @@ public class Game extends Application {
     });
 
     delay.play();
-}
-
+    }
 
     public static void main(String[] args) {
         launch(args);
     }
-}
+    }
+
+    /** 
+     if(tipsEnabled)
+        javafx.animation.PauseTransition delay = 
+        new javafx.animation.PauseTransition(javafx.util.Duration.seconds(2));
+
+        delay.setOnFinished(e -> {
+        String step1 = "To begin, press the basic attack to perform a basic attack";
+        String step2 = "Next, press the special attack button to use a special attack";
+        String knowledge = "When using basic attacks, you generate a skill point which a special attack consumes to perform";
+        string knowledge2 = "When using basic and special attacks, you generate energy allowing you to perform a ultimate attack";
+        String step3 = "To perform an ultimate attack, press the ultimate attack button";
+        String step4 = "When you use your ultimate attack, you can choose to heal yourself or deal damage";
+        String knowledge3 = "Another system is the passive system which allows you to gain another turn when you use a basic attack into a skill during the duration of 2 turns";
+        String knowledge4 = "When use use your basic attack first turn, it will track and if ur next turn is another basic attack. The passive will reset and not activate";
+        String step5 = "Try using the passive by using your basic attack then using a special attack. Your passive should say true when it is enabled";
+        String step6 = "Thats all for the tutorial, "esc" to open the game settings menu to return to the stage selector";
+
+        String bossAtk1 = "The boss will take action with a random attack, be ready";
+        String bossAtk2 = "To ensure you stay alive this battle, you should decide whenever to use a healing ultimate or damaging ultimate";
+        String bossAtk3 = "Be aware, the boss has 2 phases which will increase it's stats after the first phase is over";
+
+        if(currentBattle == tutorial){
+        System.out.println("Welcome to the tutorial stage");
+
+        "user presses space"
+
+        System.out.println(step1);
+
+        "user press space"
+
+        if(basic)
+
+        System.out.println(step2);
+
+
+
+        
+
+        });
+     
+    */
+    
