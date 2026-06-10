@@ -20,7 +20,6 @@ public class Game extends Application {
     int dummyHP = 100000000;
     int playerHP = 1200;
     int playerShield = 0;
-    int bossStagePlayerShield = 0;
     int bossHP = 5000;
     int stageBuffs = 4;
     int startingSkillPoints = 3;
@@ -31,6 +30,7 @@ public class Game extends Application {
     int basicAttackDmg = 20;
     int specialAttackDmg = 30;
     int ultimateAttackDmg = 100;
+    boolean settingsFromBattle = false;
 
     Label tutorialPlayerHpLabel;
     Label bossPlayerHpLabel;
@@ -131,7 +131,7 @@ public class Game extends Application {
 
         bossPlayerHpLabel = new Label("Player HP: " + playerHP);
         bossHpLabel = new Label("Boss HP: " + bossHP);
-        bossPlayerShieldLabel = new Label("Shield: " + bossStagePlayerShield);
+        bossPlayerShieldLabel = new Label("Shield: " + playerShield);
         bossSkillPointLabel = new Label("Skill Points: " + startingSkillPoints);
         bossEnergyLabel = new Label("Energy: " + startingEnergy);
 
@@ -150,71 +150,101 @@ public class Game extends Application {
 
         ultimateMenu = new Scene(ultimateLayout, 900, 600);
 
-
         Label pauseMenu = new Label("Game Paused");
         pauseMenu.setStyle("-fx-font-size: 50");
 
         Button battleSettings = new Button("Settings");
         battleSettings.setStyle("-fx-font-size: 30");
 
-        Button leave = new Button("Flea the battle");
+        Button leave = new Button("Flee the battle");
         leave.setStyle("-fx-font-size: 30");
 
         VBox pause = new VBox(25);
         pause.getChildren().addAll(pauseMenu, battleSettings, leave);
 
-        battleSetting = new Scene(pauseMenu, 900, 600);
+        battleSetting = new Scene(pause, 900, 600);
 
+        tutorialStage.setOnAction(e -> { currentBattle = tutorial; stage.setScene(tutorial); tutorial.getRoot().requestFocus(); });
+        bossStage.setOnAction(e -> { currentBattle = boss; stage.setScene(boss); boss.getRoot().requestFocus(); });
 
         startButton.setOnAction(e -> stage.setScene(stages));
-        settingButton.setOnAction(e -> stage.setScene(setting));
-        returnButton.setOnAction(e -> stage.setScene(menu));
+        settingButton.setOnAction(e -> { settingsFromBattle = false; stage.setScene(setting); });
 
-        tutorialStage.setOnAction(e -> {
-            currentBattle = tutorial;
-            stage.setScene(tutorial);
-        });
+        battleSettings.setOnAction(e -> { settingsFromBattle = true; stage.setScene(setting); });
 
-        bossStage.setOnAction(e -> {
-            currentBattle = boss;
-            stage.setScene(boss);
-        });
+        returnButton.setOnAction(e -> {
+        if (settingsFromBattle && currentBattle != null) {
+            stage.setScene(currentBattle);
+            if (currentBattle == tutorial) tutorial.getRoot().requestFocus();
+            if (currentBattle == boss) boss.getRoot().requestFocus();
+        } else {
+        stage.setScene(menu);
+    }
+});
+
+        tutorial.setOnKeyPressed(e -> {
+            switch (e.getCode()) {
+                case ESCAPE:
+                    currentBattle = tutorial;
+                    stage.setScene(battleSetting);
+                    battleSetting.getRoot().requestFocus();
+                    break;
+            }
+    });
+
+        boss.setOnKeyPressed(e -> {
+            switch (e.getCode()) {
+                case ESCAPE:
+                    currentBattle = boss;
+                    stage.setScene(battleSetting);
+                    battleSetting.getRoot().requestFocus();
+                    break;
+            }
+    });
+
+
+        leave.setOnAction(e -> stage.setScene(stages));
+
+        tutorialStage.setOnAction(e -> { currentBattle = tutorial; refreshUi(); stage.setScene(tutorial); tutorial.getRoot().requestFocus(); });
+
+        bossStage.setOnAction(e -> { currentBattle = boss; refreshUi(); stage.setScene(boss); boss.getRoot().requestFocus(); });
 
         rtButton.setOnAction(e -> stage.setScene(menu));
 
-        ultimateAttack.setOnAction(e -> {
-            if (startingEnergy < maxEnergy) return;
-            stage.setScene(ultimateMenu);
-        });
+        ultimateAttack.setOnAction(e -> { if (startingEnergy < maxEnergy) return; stage.setScene(ultimateMenu); });
 
         basicAttack.setOnAction(e -> {basicAttack(); refreshUi();});
         specialAttack.setOnAction(e -> {specialAttack(); refreshUi();});
         bAttack.setOnAction(e -> {basicAttack(); refreshUi();});
         spAttack.setOnAction(e -> {specialAttack(); refreshUi();});
 
-        damageUlt.setOnAction(e -> {
 
-            if (startingEnergy < maxEnergy) return;
+        damageUlt.setOnAction(e -> {
+        if (startingEnergy < maxEnergy) return;
+
+        if (currentBattle == tutorial) {
 
             dummyHP -= ultimateAttackDmg;
+            dummyHP = Math.max(0, dummyHP);
+
+        } else if (currentBattle == boss) {
+
             bossHP -= ultimateAttackDmg * stageBuffs;
+            bossHP = Math.max(0, bossHP);
+        }
 
-            startingEnergy = 0;
+        startingEnergy = 0;
+        refreshUi();
 
-            refreshUi();
-            if (currentBattle != null) stage.setScene(currentBattle);
-        });
+        if (currentBattle != null) stage.setScene(currentBattle);
+});
 
         healingUlt.setOnAction(e -> {
-
             if (startingEnergy < maxEnergy) return;
-
             playerHP += 100;
             playerShield += 100;
-            bossStagePlayerShield += 100 * stageBuffs;
-
+            playerShield += 100 * stageBuffs;
             startingEnergy = 0;
-
             refreshUi();
             if (currentBattle != null) stage.setScene(currentBattle);
         });
@@ -230,8 +260,9 @@ public class Game extends Application {
         tutorialPlayerShieldLabel.setText("Shield: " + playerShield);
 
         bossPlayerHpLabel.setText("Player HP: " + playerHP);
-        bossPlayerShieldLabel.setText("Shield: " + bossStagePlayerShield);
+        bossPlayerShieldLabel.setText("Shield: " + playerShield);
 
+        dummyHpLabel.setText("Dummy HP: " + dummyHP);
         bossHpLabel.setText("Boss HP: " + bossHP);
 
         tutorialSkillPointLabel.setText("Skill Points: " + startingSkillPoints);
@@ -243,64 +274,46 @@ public class Game extends Application {
 
     public void basicAttack() {
 
-    int dmg = basicAttackDmg;
-
-    if (currentBattle == tutorial) {
-
-        if (playerShield > 0) {
-            int absorb = Math.min(playerShield, dmg);
-            playerShield -= absorb;
-            dmg -= absorb;
-        }
-
-    } else if (currentBattle == boss) {
-
-        if (bossStagePlayerShield > 0) {
-            int absorb = Math.min(bossStagePlayerShield, dmg);
-            bossStagePlayerShield -= absorb;
-            dmg -= absorb;
-        }
-    }
-
-    bossHP -= dmg * stageBuffs;
-
-    startingSkillPoints = Math.min(startingSkillPoints + 1, maxSkillPoints);
-    startingEnergy = Math.min(startingEnergy + 25, maxEnergy);
-
-    bossHP = Math.max(0, bossHP);
-}
-
-    public void specialAttack() {
-
-    if (startingSkillPoints > minSkillPoints) {
-
-        int dmg = specialAttackDmg;
+        int dmg = basicAttackDmg;
 
         if (currentBattle == tutorial) {
-
             if (playerShield > 0) {
                 int absorb = Math.min(playerShield, dmg);
                 playerShield -= absorb;
-                dmg -= absorb;
-            }
-
-        } else if (currentBattle == boss) {
-
-            if (bossStagePlayerShield > 0) {
-                int absorb = Math.min(bossStagePlayerShield, dmg);
-                bossStagePlayerShield -= absorb;
                 dmg -= absorb;
             }
         }
 
         bossHP -= dmg * stageBuffs;
 
-        startingSkillPoints--;
-        startingEnergy = Math.min(startingEnergy + 30, maxEnergy);
+        startingSkillPoints = Math.min(startingSkillPoints + 1, maxSkillPoints);
+        startingEnergy = Math.min(startingEnergy + 25, maxEnergy);
 
         bossHP = Math.max(0, bossHP);
     }
-}
+
+    public void specialAttack() {
+
+        if (startingSkillPoints > minSkillPoints) {
+
+            int dmg = specialAttackDmg;
+
+            if (currentBattle == tutorial) {
+                if (playerShield > 0) {
+                    int absorb = Math.min(playerShield, dmg);
+                    playerShield -= absorb;
+                    dmg -= absorb;
+                }
+            }
+
+            bossHP -= dmg * stageBuffs;
+
+            startingSkillPoints--;
+            startingEnergy = Math.min(startingEnergy + 30, maxEnergy);
+
+            bossHP = Math.max(0, bossHP);
+        }
+    }
 
     public static void main(String[] args) {
         launch(args);
