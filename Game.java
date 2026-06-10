@@ -138,7 +138,7 @@ public class Game extends Application {
 
         tutorialPlayerHpLabel = new Label("Player HP: " + playerHP);
         tutorialPlayerShieldLabel = new Label("Shield: " + playerShield);
-        dummyHpLabel = new Label("Dummy HP: Inf");
+        dummyHpLabel = new Label("Dummy HP: " + dummyHP);
         tutorialSkillPointLabel = new Label("Skill Points: " + startingSkillPoints);
         tutorialEnergyLabel = new Label("Energy: " + startingEnergy);
         passiveLabel = new Label("Passive: false");
@@ -208,9 +208,6 @@ public class Game extends Application {
 
         battleSetting = new Scene(pause, 900, 600);
 
-        tutorialStage.setOnAction(e -> { currentBattle = tutorial; stage.setScene(tutorial); tutorial.getRoot().requestFocus(); });
-        bossStage.setOnAction(e -> { currentBattle = boss; stage.setScene(boss); boss.getRoot().requestFocus(); });
-
         startButton.setOnAction(e -> stage.setScene(stages));
         settingButton.setOnAction(e -> { settingsFromBattle = false; stage.setScene(setting); });
 
@@ -270,6 +267,7 @@ public class Game extends Application {
 
         if (currentBattle == tutorial) {
             dummyHP -= ultimateAttackDmg;
+            dummyHP = Math.max(0, dummyHP);
             startingEnergy = 0;
         }
 
@@ -330,6 +328,7 @@ public class Game extends Application {
 
         if(currentBattle == tutorial){
             dummyHP -= dmg;
+            dummyHP = Math.max(0, dummyHP);
             startingSkillPoints = Math.min(startingSkillPoints + 1, maxSkillPoints);
             startingEnergy = Math.min(startingEnergy + 25, maxEnergy);
             refreshUi();
@@ -350,7 +349,7 @@ public class Game extends Application {
 
     public void changingTurns(){
 
-        if (playerAction == true && passive == true){
+        if (playerAction){
             turnBar.setText("Turn: Player");
         }
         else{
@@ -376,11 +375,11 @@ public class Game extends Application {
         }
         if (startingSkillPoints > minSkillPoints) {
             
-
             int dmg = specialAttackDmg;
 
             if(currentBattle == tutorial){
                 dummyHP -= dmg;
+                dummyHP = Math.max(0, dummyHP);
                 startingSkillPoints--;
                 startingEnergy = Math.min(startingEnergy + 30, maxEnergy);
                 refreshUi();
@@ -487,7 +486,7 @@ public class Game extends Application {
 
     public void defeat(){
         if(playerHP == 0){
-            
+            defeat();
         }
     }
 
