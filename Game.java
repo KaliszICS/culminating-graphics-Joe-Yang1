@@ -50,7 +50,6 @@ public class Game extends Application {
     int bossBasicAttack = 50;
     int bossHeavyAttack = 75;
     int bossSpecialAttack = 200;
-    boolean actionBar = true;
     boolean passive = false;
     boolean playerAction = true;
     boolean settingsFromBattle = false;
@@ -333,7 +332,7 @@ public class Game extends Application {
 
     public void chaningTurns(){
 
-        turnBar.setText(playerAction && passive ? "Turn: Player" : "Next turn: Boss");
+        turnBar.setText(playerAction || passive ? "Turn: Player" : "Next turn: Boss");
         nextTurn.setText(playerAction ? "Turn: Boss" : "Next turn: Player");
         
     }
