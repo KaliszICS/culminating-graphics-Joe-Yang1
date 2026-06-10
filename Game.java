@@ -66,7 +66,7 @@ public class Game extends Application {
     Label bossEnergyLabel;
     Label passiveLabel;
     Label turnBar;
-    Label nextTurn;
+
 
     @Override
     public void start(Stage stage){
@@ -173,10 +173,7 @@ public class Game extends Application {
         turnBar = new Label("Turn: Player");
         turnBar.setStyle("-fx-font-size: 20");
 
-        nextTurn = new Label("Next turn: Boss");
-        nextTurn.setStyle("-fx-font-size: 20");
-
-        actionBox.getChildren().addAll(turnBar, nextTurn);
+        actionBox.getChildren().addAll(turnBar);
 
         bossLayout.setLeft(ability);
         bossLayout.setRight(actionBox);
@@ -339,17 +336,6 @@ public class Game extends Application {
         else{
             turnBar.setText("Turn: Boss");
         }
-
-        if(playerAction == true && passive == true){
-            nextTurn.setText("Next turn: Player");
-        }
-        else if(!playerAction == true && passive == true){
-            nextTurn.setText("Next turn: Player");
-        }
-        else{
-            nextTurn.setText("Next turn: Boss");
-        }
-        
     }
 
     public void specialAttack() {
