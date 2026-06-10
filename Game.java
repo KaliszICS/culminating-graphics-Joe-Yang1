@@ -37,6 +37,7 @@ public class Game extends Application {
     int bossSpecialAttack = 200;
     int passive = 0;
     boolean playerAction = true;
+    boolean passiveProc = false;
     boolean settingsFromBattle = false;
 
     Label tutorialPlayerHpLabel;
@@ -290,9 +291,15 @@ public class Game extends Application {
         startingSkillPoints = Math.min(startingSkillPoints + 1, maxSkillPoints);
         startingEnergy = Math.min(startingEnergy + 25, maxEnergy);
 
+        if(passive == 1){
+            passiveProc = false;
+        }
+
         bossHP = Math.max(0, bossHP);
+
         playerAction = false;
         bossActions();
+
     }
 
     public void specialAttack() {
@@ -308,12 +315,20 @@ public class Game extends Application {
             startingEnergy = Math.min(startingEnergy + 30, maxEnergy);
 
             bossHP = Math.max(0, bossHP);
+
+            if (passive == 1){
+                passiveProc = false;
+                playerAction = true;
+                passive = 0;
+                return;
+            }
+
             playerAction = false;
             bossActions();
         }
     }
 
-    
+
 
     public void bossBAttack(){
 
