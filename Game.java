@@ -220,9 +220,9 @@ public class Game extends Application {
         rtButton.setOnAction(e -> stage.setScene(menu));
 
         ultimateAttack.setOnAction(e -> { if (startingEnergy < maxEnergy) return; stage.setScene(boss); });
-        ultimateAttack.setOnAction(e -> {if (startingEnergy >= maxEnergy) return; stage.setScene(ultimateMenu)}
-        ultAttack.setOnAction(e-> {if (startingEnergy < maxEnergy) return; stage.setScene(boss)};
-        ultAttack.setOnAction(e -> {if (startingEnergy >= maxEnergy) return; stage.setScene(ultimateMenu)};
+        ultimateAttack.setOnAction(e -> {if (startingEnergy >= maxEnergy) return; stage.setScene(ultimateMenu); });
+        ultAttack.setOnAction(e-> {if (startingEnergy < maxEnergy) return; stage.setScene(boss); });
+        ultAttack.setOnAction(e -> {if (startingEnergy >= maxEnergy) return; stage.setScene(ultimateMenu); });
 
         basicAttack.setOnAction(e -> {basicAttack(); refreshUi();});
         specialAttack.setOnAction(e -> {specialAttack(); refreshUi();});
@@ -294,7 +294,13 @@ public class Game extends Application {
         startingSkillPoints = Math.min(startingSkillPoints + 1, maxSkillPoints);
         startingEnergy = Math.min(startingEnergy + 25, maxEnergy);
 
-        passiveProc = true;
+        passive++;
+
+        if (passive == 1){
+            passiveProc = false;
+            passive = 1;
+            return;
+        }
 
         bossHP = Math.max(0, bossHP);
 
@@ -317,20 +323,23 @@ public class Game extends Application {
             bossHP = Math.max(0, bossHP);
 
             if (passive == 1){
-                passiveProc = false;
-                playerAction = true;
-                passive = 0;
+                passiveProc = true;
+                passive++;
                 return;
+            }
+
             }
 
             passiveSystem();
         }
-    }
+    
 
     public void passiveSystem(){
-        if(passiveProc){
+        if(passive == 2){
             passiveProc = false;
+            passive = 0;
             playerAction = true;
+            return;
         }
 
         playerAction = false;
