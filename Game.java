@@ -280,12 +280,21 @@ public class Game extends Application {
         healingUlt.setOnAction(e -> {
             if (startingEnergy < maxEnergy) return;
 
-            playerHP += 100;
-            playerShield += 100;
-            playerShield += 100 * stageBuffs;
+            if(currentBattle == tutorial){
+                playerHP += 25;
+                playerShield += 25;
+                startingEnergy = 0;
+                refreshUi();
+                return;
+            }
+
+            playerHP += 25 * stageBuffs;
+            playerShield += 25 * stageBuffs;
             startingEnergy = 0;
             refreshUi();
+
             if (currentBattle != null) stage.setScene(currentBattle);
+            
         });
 
         stage.setScene(menu);
@@ -316,6 +325,13 @@ public class Game extends Application {
         if (!playerAction) return;
         int dmg = basicAttackDmg;
 
+        if(currentBattle == tutorial){
+            startingSkillPoints = Math.min(startingSkillPoints + 1, maxSkillPoints);
+            startingEnergy = Math.min(startingEnergy + 25, maxEnergy);
+            refreshUi();
+            return;
+        }
+
         bossHP -= dmg * stageBuffs;
 
         startingSkillPoints = Math.min(startingSkillPoints + 1, maxSkillPoints);
@@ -345,6 +361,13 @@ public class Game extends Application {
 
             int dmg = specialAttackDmg;
 
+            if(currentBattle == tutorial){
+                startingSkillPoints--;
+                startingEnergy = Math.min(startingEnergy + 30, maxEnergy);
+                refreshUi();
+                return;
+            }
+
             bossHP -= dmg * stageBuffs;
 
             startingSkillPoints--;
@@ -360,7 +383,6 @@ public class Game extends Application {
                 refreshUi();
                 return;
             }
-
 
             passive = false;
             chaningTurns();
