@@ -19,17 +19,15 @@ public class Game extends Application {
 
     int dummyHP = 100000000;
     int playerHP = 1200;
+    int playerShield = 0;
+    int bossStagePlayerShield = 0;
     int bossHP = 5000;
-
     int stageBuffs = 4;
-
     int startingSkillPoints = 3;
     int minSkillPoints = 0;
     int maxSkillPoints = 5;
-
     int startingEnergy = 0;
     int maxEnergy = 100;
-
     int basicAttackDmg = 20;
     int specialAttackDmg = 30;
     int ultimateAttackDmg = 100;
@@ -38,10 +36,10 @@ public class Game extends Application {
     Label bossPlayerHpLabel;
     Label bossHpLabel;
     Label dummyHpLabel;
-
+    Label tutorialPlayerShieldLabel;
+    Label bossPlayerShieldLabel;
     Label tutorialSkillPointLabel;
     Label tutorialEnergyLabel;
-
     Label bossSkillPointLabel;
     Label bossEnergyLabel;
 
@@ -98,13 +96,14 @@ public class Game extends Application {
         ultimateAttack.setStyle("-fx-font-size: 30;");
 
         tutorialPlayerHpLabel = new Label("Player HP: " + playerHP);
+        tutorialPlayerShieldLabel = new Label("Player Shield: " + playerShield);
         dummyHpLabel = new Label("Dummy HP: Inf");
         tutorialSkillPointLabel = new Label("Skill Points: " + startingSkillPoints);
         tutorialEnergyLabel = new Label("Energy: " + startingEnergy);
 
         VBox tutorialLayout = new VBox(25);
         tutorialLayout.getChildren().addAll(
-            gameStage, basicAttack, specialAttack, ultimateAttack, tutorialPlayerHpLabel, dummyHpLabel, tutorialSkillPointLabel, tutorialEnergyLabel
+            gameStage, basicAttack, specialAttack, ultimateAttack, tutorialPlayerHpLabel, dummyHpLabel, tutorialSkillPointLabel, tutorialEnergyLabel, playerShield 
         );
 
         tutorial = new Scene(tutorialLayout, 900, 600);
@@ -124,12 +123,13 @@ public class Game extends Application {
 
         bossPlayerHpLabel = new Label("Player HP: " + playerHP);
         bossHpLabel = new Label("Boss HP: " + bossHP);
+        bossPlayerShieldLabel = new Label("Player Shield: " + bossStagePlayerShield);
         bossSkillPointLabel = new Label("Skill Points: " + startingSkillPoints);
         bossEnergyLabel = new Label("Energy: " + startingEnergy);
 
         VBox bossLayout = new VBox(25);
         bossLayout.getChildren().addAll(
-            bossPage, bAttack, spAttack, ultAttack, bossPlayerHpLabel, bossHpLabel, bossSkillPointLabel, bossEnergyLabel
+            bossPage, bAttack, spAttack, ultAttack, bossPlayerHpLabel, bossHpLabel, bossSkillPointLabel, bossEnergyLabel, bossPlayerShieldLabel
         );
 
         boss = new Scene(bossLayout, 900, 600);
@@ -195,6 +195,10 @@ public class Game extends Application {
             if (startingEnergy < maxEnergy) return;
 
             playerHP += 100;
+
+            playerShield += 100;
+
+            bossStagePlayerShield += 100 * stageBuffs;
 
             startingEnergy = 0;
 
