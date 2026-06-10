@@ -343,12 +343,12 @@ public class Game extends Application {
 
         passive = true;
         playerAction = false;
-        chaningTurns();
+        changingTurns();
         refreshUi();
         bossActions();
     }
 
-    public void chaningTurns(){
+    public void changingTurns(){
 
         if (playerAction == true && passive == true){
             turnBar.setText("Turn: Player");
@@ -371,7 +371,11 @@ public class Game extends Application {
     public void specialAttack() {
 
         if (!playerAction) return;
+        if (startingSkillPoints <= minSkillPoints){
+            return;
+        }
         if (startingSkillPoints > minSkillPoints) {
+            
 
             int dmg = specialAttackDmg;
 
@@ -393,7 +397,7 @@ public class Game extends Application {
         }
 
             if (passive){
-                passive = true;
+                passive = false;
                 playerAction = true;
                 passiveAnnouncer();
                 refreshUi();
@@ -401,7 +405,7 @@ public class Game extends Application {
             }
 
             passive = false;
-            chaningTurns();
+            changingTurns();
             refreshUi();
             bossActions();
         }
@@ -474,11 +478,17 @@ public class Game extends Application {
         }
 
         playerAction = true;
-        chaningTurns();
+        changingTurns();
         refreshUi();
     });
 
     delay.play();
+    }
+
+    public void defeat(){
+        if(playerHP == 0){
+            
+        }
     }
 
     public static void main(String[] args) {
