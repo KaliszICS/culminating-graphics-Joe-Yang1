@@ -36,8 +36,8 @@ public class Game extends Application {
     int bossHeavyAttack = 75;
     int bossSpecialAttack = 200;
     int passive = 0;
+    int passiveTracker = 0;
     boolean playerAction = true;
-    boolean passiveProc = false;
     boolean settingsFromBattle = false;
 
     Label tutorialPlayerHpLabel;
@@ -295,18 +295,14 @@ public class Game extends Application {
         startingEnergy = Math.min(startingEnergy + 25, maxEnergy);
 
         passive++;
-
-        if (passive == 1){
-            passiveProc = false;
-            passive = 1;
-            return;
-        }
-
+        passiveTracker = 1;
+    
         bossHP = Math.max(0, bossHP);
 
         passiveSystem();
 
     }
+
 
     public void specialAttack() {
 
@@ -322,25 +318,31 @@ public class Game extends Application {
 
             bossHP = Math.max(0, bossHP);
 
-            if (passive == 1){
-                passiveProc = true;
-                passive++;
+            if (passiveTracker != 1){
+                passive = 0;
+                passiveTracker = 0;
+                passiveSystem();
                 return;
             }
 
-            }
+            passive++;
+            passiveTracker = 2;
 
             passiveSystem();
         }
+    }
     
 
     public void passiveSystem(){
-        if(passive == 2){
-            passiveProc = false;
+        if(passive >= 2 && passiveTracker == 2){
             passive = 0;
+            passiveTracker = 0;
             playerAction = true;
             return;
         }
+
+        passive = 0;
+        passiveTracker = 0;
 
         playerAction = false;
         bossActions();
