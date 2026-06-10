@@ -7,6 +7,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
+import javafx.scene.layout.BorderPane;
 
 public class Game extends Application {
 
@@ -35,6 +36,7 @@ public class Game extends Application {
     int bossBasicAttack = 50;
     int bossHeavyAttack = 75;
     int bossSpecialAttack = 200;
+    boolean actionBar = true;
     boolean passive = false;
     boolean playerAction = true;
     boolean settingsFromBattle = false;
@@ -50,6 +52,7 @@ public class Game extends Application {
     Label bossSkillPointLabel;
     Label bossEnergyLabel;
     Label passiveLabel;
+    Label turnBar = new Label();
 
     @Override
     public void start(Stage stage){
@@ -147,8 +150,19 @@ public class Game extends Application {
         bossEnergyLabel = new Label("Energy: " + startingEnergy);
         passiveLabel = new Label("Passive: " + passive);
 
-        VBox bossLayout = new VBox(25);
-        bossLayout.getChildren().addAll(bossPage, bAttack, spAttack, ultAttack, bossPlayerHpLabel, bossPlayerShieldLabel, bossHpLabel, bossSkillPointLabel, bossEnergyLabel, passiveLabel);
+        BorderPane bossLayout = new BorderPane();
+        VBox ability = new VBox(25);
+        ability.getChildren().addAll(bossPage, bAttack, spAttack, ultAttack, bossPlayerHpLabel, bossPlayerShieldLabel, bossHpLabel, bossSkillPointLabel, bossEnergyLabel, passiveLabel);
+
+        VBox actionBox = new VBox(10);
+
+        turnBar = new Label("Turn: Player");
+        turnBar.setStyle("-fx-font-size: 20");
+
+        actionBox.getChildren().addAll(turnBar);
+
+        bossLayout.setLeft(ability);
+        bossLayout.setRight(actionBox);
 
         boss = new Scene(bossLayout, 900, 600);
 
@@ -173,6 +187,7 @@ public class Game extends Application {
 
         VBox pause = new VBox(25);
         pause.getChildren().addAll(pauseMenu, battleSettings, leave);
+
 
         battleSetting = new Scene(pause, 900, 600);
 
@@ -325,7 +340,15 @@ public class Game extends Application {
             bossActions();
         }
 
+    public void chaningTurns(){
 
+        if (playerAction){
+            turnBar. setText("Turn: You");
+        }
+        else {
+            turnBar. setText("Turn: Boss");
+        }
+    }
 
     public void bossBAttack(){
 
@@ -395,6 +418,7 @@ public class Game extends Application {
         }
 
         playerAction = true;
+        chaningTurns();
         refreshUi();
     });
 
