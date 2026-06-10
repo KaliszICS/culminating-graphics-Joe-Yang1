@@ -75,6 +75,7 @@ public class Game extends Application {
     public void start(Stage stage){
         defStage = stage;
 
+
         Label titlePage = new Label("Untitled");
         titlePage.setStyle("-fx-font-size: 50;");
 
@@ -88,8 +89,11 @@ public class Game extends Application {
         exitButton.setStyle("-fx-font-size: 30;");
         exitButton.setOnAction(e -> System.exit(0));
 
+        BorderPane menu1 = new BorderPane();
         VBox menuSpacing = new VBox(25);
         menuSpacing.getChildren().addAll(titlePage, startButton, settingButton, exitButton);
+
+        menu1.setCenter(menuSpacing);
 
         menu = new Scene(menuSpacing, 900, 600);
 
@@ -175,7 +179,7 @@ public class Game extends Application {
         VBox actionBox = new VBox(10);
 
         turnBar = new Label("Turn: Player");
-        turnBar.setStyle("-fx-font-size: 20");
+        turnBar.setStyle("-fx-font-size: 30");
 
         actionBox.getChildren().addAll(turnBar);
 
@@ -206,8 +210,9 @@ public class Game extends Application {
         VBox pause = new VBox(25);
         pause.getChildren().addAll(pauseMenu, battleSettings, leave);
 
-
         battleSetting = new Scene(pause, 900, 600);
+
+
 
         Label defeatLabel = new Label("You have been defeated");
         defeatLabel.setStyle("-fx-font-size: 35");
@@ -239,14 +244,14 @@ public class Game extends Application {
         stage.setScene(menu);
     }
 });
-
+        // checks if the player presses "esc" which opens a game menu with options.
         tutorial.setOnKeyPressed(e -> {
             switch (e.getCode()) {
                 case ESCAPE:
                     currentBattle = tutorial;
-                    stage.setScene(battleSetting);
+                    stage.setScene(battleSetting); // makes the key open the paused menu setting
                     battleSetting.getRoot().requestFocus();
-                    break;
+                    break; 
             }
     });
 
@@ -261,15 +266,16 @@ public class Game extends Application {
     });
 
 
-        leave.setOnAction(e -> stage.setScene(stages));
+        leave.setOnAction(e -> stage.setScene(stages)); // sets the action of the leave button to leave and return to the stage selector page
         defLeave.setOnAction(e -> stage.setScene(stages));
-        tutorialStage.setOnAction(e -> { currentBattle = tutorial; refreshUi(); stage.setScene(tutorial); tutorial.getRoot().requestFocus(); });
 
-        bossStage.setOnAction(e -> { currentBattle = boss; refreshUi(); stage.setScene(boss); boss.getRoot().requestFocus(); });
+        tutorialStage.setOnAction(e -> { currentBattle = tutorial; refreshUi(); stage.setScene(tutorial); tutorial.getRoot().requestFocus(); }); // sets the tutorial stage button to bring the user to the tutorial combat scene when pressed.
+
+        bossStage.setOnAction(e -> { currentBattle = boss; refreshUi(); stage.setScene(boss); boss.getRoot().requestFocus(); }); 
 
         rtButton.setOnAction(e -> stage.setScene(menu));
 
-        ultimateAttack.setOnAction(e -> stage.setScene(startingEnergy >= maxEnergy ? ultimateMenu : currentBattle));
+        ultimateAttack.setOnAction(e -> stage.setScene(startingEnergy >= maxEnergy ? ultimateMenu : currentBattle)); // sets the ultimate attacks buttons to bring you to an ultimate selector page which allows you to choose different attacks.
         ultAttack.setOnAction(e -> stage.setScene(startingEnergy >= maxEnergy ? ultimateMenu : currentBattle));
 
         basicAttack.setOnAction(e -> {basicAttack(); refreshUi();});
@@ -278,7 +284,7 @@ public class Game extends Application {
         spAttack.setOnAction(e -> {specialAttack(); refreshUi();});
 
 
-    damageUlt.setOnAction(e -> {
+        damageUlt.setOnAction(e -> {
 
         if (startingEnergy < maxEnergy) return;
 
@@ -296,7 +302,7 @@ public class Game extends Application {
 
             stage.setScene(currentBattle);
     });
-
+        
         healingUlt.setOnAction(e -> {
             if (startingEnergy < maxEnergy) return;
 
@@ -320,6 +326,7 @@ public class Game extends Application {
         stage.show();
     }
 
+    // refreshes all the label variables with updated information and values.
     public void refreshUi() {
 
         tutorialPlayerHpLabel.setText("Player HP: " + playerHP);
@@ -376,7 +383,7 @@ public class Game extends Application {
         }
     }
 
-    // method to change the passive label to the conditions of passiveAnnouncer.
+
     public void passiveAnnouncer(){
 
         if(passive == true){
@@ -451,6 +458,7 @@ public class Game extends Application {
             }
         }
 
+        // Another attack method for the boss
     public void bossHAttack(){
 
         int dmg = bossHeavyAttack;
@@ -470,6 +478,7 @@ public class Game extends Application {
         }
     }
 
+    // And another boss attack method
     public void bossSpAttack(){
 
         int dmg = bossSpecialAttack;
@@ -490,7 +499,7 @@ public class Game extends Application {
         }
     }
 
-
+    // method to generate the bosses random attack patterns
     public void bossActions() {
 
     if (currentBattle != boss) return;
