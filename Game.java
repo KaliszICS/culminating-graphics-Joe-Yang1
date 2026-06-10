@@ -29,12 +29,13 @@ public class Game extends Application {
     int maxSkillPoints = 5;
     int startingEnergy = 0;
     int maxEnergy = 100;
-    int basicAttackDmg = 20;
-    int specialAttackDmg = 30;
-    int ultimateAttackDmg = 100;
-    int bossBasicAttack = 100;
-    int bossHeavyAttack = 200;
-    int bossSpecialAttack = 400;
+    int basicAttackDmg = 40;
+    int specialAttackDmg = 60;
+    int ultimateAttackDmg = 200;
+    int bossBasicAttack = 50;
+    int bossHeavyAttack = 75;
+    int bossSpecialAttack = 200;
+    int passive = 0;
     boolean playerAction = true;
     boolean settingsFromBattle = false;
 
@@ -247,6 +248,7 @@ public class Game extends Application {
 
         healingUlt.setOnAction(e -> {
             if (startingEnergy < maxEnergy) return;
+
             playerHP += 100;
             playerShield += 100;
             playerShield += 100 * stageBuffs;
@@ -290,6 +292,7 @@ public class Game extends Application {
 
         bossHP = Math.max(0, bossHP);
         playerAction = false;
+        bossActions();
     }
 
     public void specialAttack() {
@@ -306,8 +309,11 @@ public class Game extends Application {
 
             bossHP = Math.max(0, bossHP);
             playerAction = false;
+            bossActions();
         }
     }
+
+    
 
     public void bossBAttack(){
 
