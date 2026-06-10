@@ -1,3 +1,16 @@
+/**
+
+        * File: culminating
+
+        * Author: Joe Yang
+
+ 		* Date Created: May 15, 2026
+
+        * Date Last Modified: May 18, 2026
+
+        */
+
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import javafx.scene.layout.BorderPane;
+
 
 public class Game extends Application {
 
@@ -52,7 +66,8 @@ public class Game extends Application {
     Label bossSkillPointLabel;
     Label bossEnergyLabel;
     Label passiveLabel;
-    Label turnBar = new Label();
+    Label turnBar;
+    Label nextTurn;
 
     @Override
     public void start(Stage stage){
@@ -159,7 +174,10 @@ public class Game extends Application {
         turnBar = new Label("Turn: Player");
         turnBar.setStyle("-fx-font-size: 20");
 
-        actionBox.getChildren().addAll(turnBar);
+        nextTurn = new Label("Next turn:");
+        nextTurn.setStyle("-fx-font-size: 20");
+
+        actionBox.getChildren().addAll(turnBar, nextTurn);
 
         bossLayout.setLeft(ability);
         bossLayout.setRight(actionBox);
@@ -308,10 +326,17 @@ public class Game extends Application {
         startingEnergy = Math.min(startingEnergy + 25, maxEnergy);
 
         passive = true;
-
+        chaningTurns();
+        refreshUi();
         bossActions();
     }
 
+    public void chaningTurns(){
+
+        turnBar.setText(playerAction && passive ? "Turn: Player" : "Next turn: Boss");
+        nextTurn.setText(playerAction ? "Turn: Boss" : "Next turn: Player");
+        
+    }
 
     public void specialAttack() {
 
@@ -332,23 +357,17 @@ public class Game extends Application {
             if (passive){
                 passive = false;
                 playerAction = true;
+                chaningTurns();
+                refreshUi();
                 return;
             }
 
 
             passive = false;
+            chaningTurns();
+            refreshUi();
             bossActions();
         }
-
-    public void chaningTurns(){
-
-        if (playerAction){
-            turnBar. setText("Turn: You");
-        }
-        else {
-            turnBar. setText("Turn: Boss");
-        }
-    }
 
     public void bossBAttack(){
 
