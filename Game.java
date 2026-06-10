@@ -286,6 +286,8 @@ public class Game extends Application {
 
         tutorial = new Scene(tutorialLayout, 900, 600);
 
+        Label bossStageLabel = new Label("Boss Stage");
+        bossStageLabel.setStyle("-fx-font-size: 50;");
 
         Button bAttack = new Button("Basic Attack");
         bAttack.setShape(new javafx.scene.shape.Circle(55));
@@ -390,8 +392,8 @@ public class Game extends Application {
             "-fx-font-size: 10;"
         );
 
-        tutorialEnergyLabel.setMinSize(150,20);
-        tutorialEnergyLabel.setMaxSize(150,20);
+        bossEnergyLabel.setMinSize(150,20);
+        bossEnergyLabel.setMaxSize(150,20);
 
         Label bossText = new Label("Press 'esc' to open menu");
         tutorialText.setStyle("-fx-font-size: 15");
@@ -431,9 +433,9 @@ public class Game extends Application {
         spAttack.setLayoutX(650);
         spAttack.setLayoutY(450);
 
-        gameLayout.getChildren().addAll(gameStage, bAttack, spAttack, ultAttack, bossPlayerHpLabel, bossPlayerShieldLabel, bossHpLabel, bossSkillPointLabel, bossEnergyLabel, passiveLabel, bossText);
+        gameLayout.getChildren().addAll(bossStageLabel, bAttack, spAttack, ultAttack, bossPlayerHpLabel, bossPlayerShieldLabel, bossHpLabel, bossSkillPointLabel, bossEnergyLabel, passiveLabel, bossText);
 
-        boss = new Scene(gameLayout 900, 600);
+        boss = new Scene(gameLayout, 900, 600);
 
         Label ultLabel = new Label("Choose an ultimate type");
 
