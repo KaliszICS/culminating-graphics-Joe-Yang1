@@ -138,7 +138,7 @@ public class Game extends Application {
         dummyHpLabel = new Label("Dummy HP: Inf");
         tutorialSkillPointLabel = new Label("Skill Points: " + startingSkillPoints);
         tutorialEnergyLabel = new Label("Energy: " + startingEnergy);
-        passiveLabel = new Label("Passive: " + passive);
+        passiveLabel = new Label("Passive: false");
 
         VBox tutorialLayout = new VBox(25);
         tutorialLayout.getChildren().addAll(gameStage, basicAttack, specialAttack, ultimateAttack, tutorialPlayerHpLabel, tutorialPlayerShieldLabel, dummyHpLabel, tutorialSkillPointLabel, tutorialEnergyLabel, passiveLabel);
@@ -162,7 +162,7 @@ public class Game extends Application {
         bossPlayerShieldLabel = new Label("Shield: " + playerShield);
         bossSkillPointLabel = new Label("Skill Points: " + startingSkillPoints);
         bossEnergyLabel = new Label("Energy: " + startingEnergy);
-        passiveLabel = new Label("Passive: " + passive);
+        passiveLabel = new Label("Passive: false");
 
         BorderPane bossLayout = new BorderPane();
         VBox ability = new VBox(25);
@@ -265,11 +265,13 @@ public class Game extends Application {
 
         if (startingEnergy < maxEnergy) return;
 
-        if (currentBattle == boss) {
+        if (currentBattle == tutorial) {
+            dummyHP -= ultimateAttackDmg;
+            startingEnergy = 0;
+        }
 
             bossHP -= ultimateAttackDmg * stageBuffs;
             bossHP = Math.max(0, bossHP);
-        }
 
             startingEnergy = 0;
             refreshUi();
@@ -282,14 +284,12 @@ public class Game extends Application {
 
             if(currentBattle == tutorial){
                 playerHP += 25;
-                playerShield += 25;
+                playerShield += 50;
                 startingEnergy = 0;
-                refreshUi();
-                return;
             }
 
             playerHP += 25 * stageBuffs;
-            playerShield += 25 * stageBuffs;
+            playerShield += 50 * stageBuffs;
             startingEnergy = 0;
             refreshUi();
 
@@ -354,6 +354,16 @@ public class Game extends Application {
         }
     }
 
+    public void passiveAnnouncer(){
+
+        if(passive == true){
+            passiveLabel.setText("Passive: true");
+        }
+        else{
+            passiveLabel.setText("Passive: false");
+        }
+    }
+
     public void specialAttack() {
 
         if (!playerAction) return;
@@ -378,8 +388,9 @@ public class Game extends Application {
         }
 
             if (passive){
-                passive = false;
+                passive = true;
                 playerAction = true;
+                passiveAnnouncer();
                 refreshUi();
                 return;
             }
