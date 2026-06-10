@@ -84,6 +84,7 @@ public class Game extends Application {
 
         setting = new Scene(settingOptions, 900, 600);
 
+
         Label stageSelectionPage = new Label("Stage Selection");
         stageSelectionPage.setStyle("-fx-font-size: 50;");
 
@@ -101,6 +102,7 @@ public class Game extends Application {
 
         stages = new Scene(stageLayout, 900, 600);
 
+        
         Label gameStage = new Label("Tutorial Stage");
         gameStage.setStyle("-fx-font-size: 50;");
 
@@ -218,10 +220,8 @@ public class Game extends Application {
 
         rtButton.setOnAction(e -> stage.setScene(menu));
 
-        ultimateAttack.setOnAction(e -> { if (startingEnergy < maxEnergy) return; stage.setScene(boss); });
-        ultimateAttack.setOnAction(e -> {if (startingEnergy >= maxEnergy) return; stage.setScene(ultimateMenu); });
-        ultAttack.setOnAction(e-> {if (startingEnergy < maxEnergy) return; stage.setScene(boss); });
-        ultAttack.setOnAction(e -> {if (startingEnergy >= maxEnergy) return; stage.setScene(ultimateMenu); });
+        ultimateAttack.setOnAction(e -> stage.setScene(startingEnergy >= maxEnergy ? ultimateMenu : currentBattle));
+        ultAttack.setOnAction(e -> stage.setScene(startingEnergy >= maxEnergy ? ultimateMenu : currentBattle));
 
         basicAttack.setOnAction(e -> {basicAttack(); refreshUi();});
         specialAttack.setOnAction(e -> {specialAttack(); refreshUi();});
@@ -229,25 +229,21 @@ public class Game extends Application {
         spAttack.setOnAction(e -> {specialAttack(); refreshUi();});
 
 
-        damageUlt.setOnAction(e -> {
+    damageUlt.setOnAction(e -> {
+
         if (startingEnergy < maxEnergy) return;
 
-        if (currentBattle == tutorial) {
-
-            dummyHP -= ultimateAttackDmg;
-            dummyHP = Math.max(0, dummyHP);
-
-        } else if (currentBattle == boss) {
+        if (currentBattle == boss) {
 
             bossHP -= ultimateAttackDmg * stageBuffs;
             bossHP = Math.max(0, bossHP);
         }
 
-        startingEnergy = 0;
-        refreshUi();
+            startingEnergy = 0;
+            refreshUi();
 
-        if (currentBattle != null) stage.setScene(currentBattle);
-});
+            stage.setScene(currentBattle);
+    });
 
         healingUlt.setOnAction(e -> {
             if (startingEnergy < maxEnergy) return;
