@@ -341,10 +341,10 @@ public class Game extends Application {
         }
 
         if(!playerAction == true && !passive == true){
-            nextTurn.setText("Turn: Boss");
+            nextTurn.setText("Next turn: Boss");
         }
         else{
-            nextTurn.setText("Turn: Player");
+            nextTurn.setText("Next turn: Player");
         }
         
     }
