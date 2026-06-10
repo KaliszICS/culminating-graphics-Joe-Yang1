@@ -291,14 +291,11 @@ public class Game extends Application {
         startingSkillPoints = Math.min(startingSkillPoints + 1, maxSkillPoints);
         startingEnergy = Math.min(startingEnergy + 25, maxEnergy);
 
-        if(passive == 1){
-            passiveProc = false;
-        }
+        passiveProc = true;
 
         bossHP = Math.max(0, bossHP);
 
-        playerAction = false;
-        bossActions();
+        passiveSystem();
 
     }
 
@@ -323,9 +320,18 @@ public class Game extends Application {
                 return;
             }
 
-            playerAction = false;
-            bossActions();
+            passiveSystem();
         }
+    }
+
+    public void passiveSystem(){
+        if(passiveProc){
+            passiveProc = false;
+            playerAction = true;
+        }
+
+        playerAction = false;
+        bossActions();
     }
 
 
@@ -381,7 +387,7 @@ public class Game extends Application {
     if (currentBattle != boss) return;
 
     javafx.animation.PauseTransition delay =
-            new javafx.animation.PauseTransition(javafx.util.Duration.seconds(3));
+            new javafx.animation.PauseTransition(javafx.util.Duration.seconds(2));
 
     delay.setOnFinished(e -> {
 
