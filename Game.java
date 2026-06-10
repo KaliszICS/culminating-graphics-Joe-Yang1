@@ -34,11 +34,14 @@ public class Game extends Application {
     double bossPhase2Buffs = 1.25;
     boolean playerAction = true;
 
-    Label playerHpLabel;
+    Label tutorialPlayerHpLabel;
+    Label bossPlayerHpLabel;
     Label bossHpLabel;
     Label dummyHpLabel;
-    Label skillPointLabel;
-    Label energyLabel;
+    Label tutorialSkillPointLabel;
+    Label tutorialEnergyLabel;
+    Label bossSkillPointLabel;
+    Label bossEnergyLabel;
 
     @Override
     public void start(Stage stage){
@@ -89,7 +92,7 @@ public class Game extends Application {
         Button rtButton = new Button("Return");
         rtButton.setStyle("-fx-font-size: 30;");
 
-        playerHpLabel = new Label("Player HP: " +playerHP);
+        tutorialPlayerHpLabel = new Label("Player HP: " + playerHP);
         dummyHpLabel = new Label("Dummy Hp: Inf");
         skillPointLabel = new Label("Skill points: " + startingSkillPoints);
         energyLabel = new Label("Energy: " + startingEnergy);
@@ -113,13 +116,13 @@ public class Game extends Application {
         Button ultimateAttack = new Button("Ultimate Attack");
         ultimateAttack.setStyle("-fx-font-size: 30;");
 
-        playerHpLabel = new Label("Player HP: " +playerHP);
+        bossPlayerHpLabel = new Label("Player HP: " +playerHP);
         dummyHpLabel = new Label("Dummy Hp: " + dummyHP);
         skillPointLabel = new Label("Skill points: " + startingSkillPoints);
         energyLabel = new Label("Energy: " + startingEnergy);
 
         VBox tutorialLayout = new VBox(25);
-        tutorialLayout.getChildren().addAll(gameStage, basicAttack, specialAttack, ultimateAttack, playerHpLabel, dummyHpLabel, skillPointLabel, energyLabel);
+        tutorialLayout.getChildren().addAll(gameStage, basicAttack, specialAttack, ultimateAttack, tutorialPlayerHpLabel, dummyHpLabel, skillPointLabel, energyLabel);
 
         tutorial = new Scene(tutorialLayout, 900, 600);
 
@@ -136,13 +139,13 @@ public class Game extends Application {
         Button ultAttack = new Button("Ultimate Attack");
         ultAttack.setStyle("-fx-font-size: 30;");
 
-        playerHpLabel = new Label("Player HP: " +playerHP);
+        bossPlayerHpLabel = new Label("Player HP: " +playerHP);
         bossHpLabel = new Label("Boss HP: " + bossHP);
         skillPointLabel = new Label("Skill points: " + startingSkillPoints);
         energyLabel = new Label("Energy: " + startingEnergy);
 
         VBox bossLayout = new VBox(25);
-        bossLayout.getChildren().addAll(bossPage, bAttack, spAttack, ultAttack, playerHpLabel, bossHpLabel, skillPointLabel, energyLabel );
+        bossLayout.getChildren().addAll(bossPage, bAttack, spAttack, ultAttack, bossPlayerHpLabel, bossHpLabel, skillPointLabel, energyLabel );
         
         boss = new Scene(bossLayout, 900, 600);
 
@@ -178,28 +181,29 @@ public class Game extends Application {
         stage.show();
     }
 
+
     public void refreshUi() {
 
-    if (playerHpLabel != null) {
-        playerHpLabel.setText("Player HP: " + playerHP);
-    }
+    if (tutorialPlayerHpLabel != null)
+        tutorialPlayerHpLabel.setText("Player HP: " + playerHP);
 
-    if (dummyHpLabel != null) {
+    if (dummyHpLabel != null)
         dummyHpLabel.setText("Dummy HP: " + dummyHP);
-    }
 
-    if (bossHpLabel != null) {
+    if (bossPlayerHpLabel != null)
+        bossPlayerHpLabel.setText("Player HP: " + playerHP);
+
+    if (bossHpLabel != null)
         bossHpLabel.setText("Boss HP: " + bossHP);
-    }
 
-    if (skillPointLabel != null) {
+    if (skillPointLabel != null)
         skillPointLabel.setText("Skill Points: " + startingSkillPoints);
-    }
 
-    if (energyLabel != null) {
+    if (energyLabel != null)
         energyLabel.setText("Energy: " + startingEnergy);
     }
-}
+
+
 
    public void basicAttack() {
 
@@ -260,6 +264,8 @@ public class Game extends Application {
         }
     }
 }
+
+
 
     public static void main(String[] args) {
         launch(args);
