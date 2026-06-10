@@ -149,11 +149,11 @@ public class Game extends Application {
             "-fx-font-size: 8;"
         );
 
-        basicAttack.setMinSize(70,70);
-        basicAttack.setPrefSize(70,70);
-        basicAttack.setMaxSize(70,70);
+        basicAttack.setMinSize(140,140);
+        basicAttack.setPrefSize(140,140);
+        basicAttack.setMaxSize(140,140);
 
-        
+
         Button specialAttack = new Button("Special Attack");
         specialAttack.setShape(new javafx.scene.shape.Circle(55));
         specialAttack.setStyle(
@@ -165,9 +165,9 @@ public class Game extends Application {
             "-fx-font-size: 8;"
         );
 
-        specialAttack.setMinSize(50,50);
-        specialAttack.setPrefSize(50,50);
-        specialAttack.setMaxSize(50,50);
+        specialAttack.setMinSize(80,80);
+        specialAttack.setPrefSize(80,80);
+        specialAttack.setMaxSize(80,80);
 
         Button ultimateAttack = new Button("Ultimate Attack");
         ultimateAttack.setShape(new javafx.scene.shape.Circle(55));
@@ -180,9 +180,9 @@ public class Game extends Application {
             "-fx-font-size: 8;"
         );
 
-        ultimateAttack.setMinSize(60,60);
-        ultimateAttack.setPrefSize(60,60);
-        ultimateAttack.setMaxSize(60,60);
+        ultimateAttack.setMinSize(100,100);
+        ultimateAttack.setPrefSize(60,100);
+        ultimateAttack.setMaxSize(100,100);
 
         tutorialPlayerHpLabel = new Label("Player HP: " + playerHP);
         tutorialPlayerHpLabel.setStyle(
@@ -244,6 +244,8 @@ public class Game extends Application {
         tutorialEnergyLabel.setMinSize(150,20);
         tutorialEnergyLabel.setMaxSize(150,20);
 
+        Label tutorialText = new Label("Press 'esc' to open menu");
+        tutorialText.setStyle("-fx-font-size: 15");
 
         passiveLabel = new Label("Passive: false");
         passiveLabel.setStyle("-fx-text-fill: white;" + "-fx-border-color: black;" + "fx-border-width: 3;" + "-fx-background-color: grey;");
@@ -262,7 +264,7 @@ public class Game extends Application {
         dummyHpLabel.setLayoutX(330);
         dummyHpLabel.setLayoutY(100);
 
-        tutorialSkillPointLabel.setLayoutX(590);
+        tutorialSkillPointLabel.setLayoutX(650);
         tutorialSkillPointLabel.setLayoutY(350);
 
         passiveLabel.setLayoutX(400);
@@ -271,44 +273,167 @@ public class Game extends Application {
         tutorialEnergyLabel.setLayoutX(400);
         tutorialEnergyLabel.setLayoutY(435);
 
-        tutorialLayout.getChildren().addAll(gameStage, basicAttack, specialAttack, ultimateAttack, tutorialPlayerHpLabel, tutorialPlayerShieldLabel, dummyHpLabel, tutorialSkillPointLabel, tutorialEnergyLabel, passiveLabel);
+        ultimateAttack.setLayoutX(750);
+        ultimateAttack.setLayoutY(300);
+
+        basicAttack.setLayoutX(750);
+        basicAttack.setLayoutY(440);
+
+        specialAttack.setLayoutX(650);
+        specialAttack.setLayoutY(450);
+
+        tutorialLayout.getChildren().addAll(gameStage, basicAttack, specialAttack, ultimateAttack, tutorialPlayerHpLabel, tutorialPlayerShieldLabel, dummyHpLabel, tutorialSkillPointLabel, tutorialEnergyLabel, passiveLabel, tutorialText);
 
         tutorial = new Scene(tutorialLayout, 900, 600);
 
-        Label bossPage = new Label("Boss Stage");
-        bossPage.setStyle("-fx-font-size: 50");
 
         Button bAttack = new Button("Basic Attack");
-        bAttack.setStyle("-fx-font-size: 30;");
+        bAttack.setShape(new javafx.scene.shape.Circle(55));
+        bAttack.setStyle(
+            "-fx-alignment: center;" +
+            "-fx-text-fill: white;" +
+            "-fx-background-color: grey;" +
+            "-fx-border-color: black;" +
+            "-fx-border-width: 3;" +
+            "-fx-font-size: 8;"
+        );
+
+        bAttack.setMinSize(140,140);
+        bAttack.setPrefSize(140,140);
+        bAttack.setMaxSize(140,140);
+
 
         Button spAttack = new Button("Special Attack");
-        spAttack.setStyle("-fx-font-size: 30;");
+        spAttack.setShape(new javafx.scene.shape.Circle(55));
+        spAttack.setStyle(
+            "-fx-alignment: center;" +
+            "-fx-text-fill: white;" +
+            "-fx-background-color: grey;" +
+            "-fx-border-color: black;" +
+            "-fx-border-width: 3;" +
+            "-fx-font-size: 8;"
+        );
+
+        spAttack.setMinSize(80,80);
+        spAttack.setPrefSize(80,80);
+        spAttack.setMaxSize(80,80);
 
         Button ultAttack = new Button("Ultimate Attack");
-        ultAttack.setStyle("-fx-font-size: 30;");
+        ultAttack.setShape(new javafx.scene.shape.Circle(55));
+        ultAttack.setStyle(
+            "-fx-alignment: center;" +
+            "-fx-text-fill: white;" +
+            "-fx-background-color: grey;" +
+            "-fx-border-color: black;" +
+            "-fx-border-width: 3;" +
+            "-fx-font-size: 8;"
+        );
+
+        ultAttack.setMinSize(100,100);
+        ultAttack.setPrefSize(60,100);
+        ultAttack.setMaxSize(100,100);
 
         bossPlayerHpLabel = new Label("Player HP: " + playerHP);
-        bossHpLabel = new Label("Boss HP: " + bossHP);
+        bossPlayerHpLabel.setStyle(
+        "-fx-font-size: 16;" +
+        "-fx-text-fill: white;" +
+        "-fx-background-color: red;" +
+        "-fx-border-color: black;" +
+        "-fx-border-width: 3;" +
+        "-fx-padding: 6;" +
+        "-fx-alignment: center;"
+    );
+
+        bossPlayerHpLabel.setMinSize(150, 40);
+        bossPlayerHpLabel.setPrefSize(150, 40);
+
         bossPlayerShieldLabel = new Label("Shield: " + playerShield);
+        bossPlayerShieldLabel.setStyle("-fx-text-fill: white;" + "-fx-border-color: black;" + "fx-border-width: 3;" + "-fx-background-color: grey;");
+
+        bossHpLabel = new Label("Dummy HP: " + dummyHP);
+        bossHpLabel.setStyle(
+        "-fx-font-size: 16;" +
+        "-fx-text-fill: white;" +
+        "-fx-background-color: red;" +
+        "-fx-border-color: black;" +
+        "-fx-border-width: 3;" +
+        "-fx-padding: 6;" +
+        "-fx-alignment: left;"
+    );
+
+        bossHpLabel.setMinSize(250, 40);
+        bossHpLabel.setMaxSize(250,40);
+
         bossSkillPointLabel = new Label("Skill Points: " + startingSkillPoints);
+        bossSkillPointLabel.setShape(new javafx.scene.shape.Circle(55));
+
+        bossSkillPointLabel.setMinSize(90, 90);
+        bossSkillPointLabel.setPrefSize(90, 90);
+        bossSkillPointLabel.setMaxSize(90, 90);
+
+        bossSkillPointLabel.setStyle(
+            "-fx-alignment: center;" +
+            "-fx-text-fill: white;" +
+            "-fx-background-color: grey;" +
+            "-fx-border-color: black;" +
+            "-fx-border-width: 3;" +
+            "-fx-font-size: 11;"
+        );
+        
         bossEnergyLabel = new Label("Energy: " + startingEnergy);
+        bossEnergyLabel.setStyle(
+            "-fx-alignment: left;" +
+            "-fx-text-fill: white;" +
+            "-fx-background-color: green;" +
+            "-fx-border-color: black;" +
+            "-fx-border-width: 2;" + 
+            "-fx-font-size: 10;"
+        );
+
+        tutorialEnergyLabel.setMinSize(150,20);
+        tutorialEnergyLabel.setMaxSize(150,20);
+
+        Label bossText = new Label("Press 'esc' to open menu");
+        tutorialText.setStyle("-fx-font-size: 15");
+
         passiveLabel = new Label("Passive: false");
+        passiveLabel.setStyle("-fx-text-fill: white;" + "-fx-border-color: black;" + "fx-border-width: 3;" + "-fx-background-color: grey;");
 
-        BorderPane bossLayout = new BorderPane();
-        VBox ability = new VBox(25);
-        ability.getChildren().addAll(bossPage, bAttack, spAttack, ultAttack, bossPlayerHpLabel, bossPlayerShieldLabel, bossHpLabel, bossSkillPointLabel, bossEnergyLabel, passiveLabel);
+        Pane gameLayout = new Pane();
 
-        VBox actionBox = new VBox(10);
+        gameStage.setLayoutX(300);
+        gameStage.setLayoutY(20);
 
-        turnBar = new Label("Turn: Player");
-        turnBar.setStyle("-fx-font-size: 30");
+        bossPlayerHpLabel.setLayoutX(400);
+        bossPlayerHpLabel.setLayoutY(400);
 
-        actionBox.getChildren().addAll(turnBar);
+        bossPlayerShieldLabel.setLayoutX(400);
+        bossPlayerShieldLabel.setLayoutY(380);
 
-        bossLayout.setLeft(ability);
-        bossLayout.setRight(actionBox);
+        bossHpLabel.setLayoutX(330);
+        bossHpLabel.setLayoutY(100);
 
-        boss = new Scene(bossLayout, 900, 600);
+        tutorialSkillPointLabel.setLayoutX(650);
+        tutorialSkillPointLabel.setLayoutY(350);
+
+        passiveLabel.setLayoutX(400);
+        passiveLabel.setLayoutY(455);
+
+        bossEnergyLabel.setLayoutX(400);
+        bossEnergyLabel.setLayoutY(435);
+
+        ultAttack.setLayoutX(750);
+        ultAttack.setLayoutY(300);
+
+        bAttack.setLayoutX(750);
+        bAttack.setLayoutY(440);
+
+        spAttack.setLayoutX(650);
+        spAttack.setLayoutY(450);
+
+        gameLayout.getChildren().addAll(gameStage, bAttack, spAttack, ultAttack, bossPlayerHpLabel, bossPlayerShieldLabel, bossHpLabel, bossSkillPointLabel, bossEnergyLabel, passiveLabel, bossText);
+
+        boss = new Scene(gameLayout 900, 600);
 
         Label ultLabel = new Label("Choose an ultimate type");
 
@@ -319,6 +444,7 @@ public class Game extends Application {
         ultimateLayout.getChildren().addAll(ultLabel, damageUlt, healingUlt);
 
         ultimateMenu = new Scene(ultimateLayout, 900, 600);
+
 
         Label pauseMenu = new Label("Game Paused");
         pauseMenu.setStyle("-fx-font-size: 50");
