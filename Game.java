@@ -325,6 +325,7 @@ public class Game extends Application {
         startingEnergy = Math.min(startingEnergy + 25, maxEnergy);
 
         passive = true;
+        playerAction = false;
         chaningTurns();
         refreshUi();
         bossActions();
@@ -332,8 +333,19 @@ public class Game extends Application {
 
     public void chaningTurns(){
 
-        turnBar.setText(playerAction || passive ? "Turn: Player" : "Next turn: Boss");
-        nextTurn.setText(playerAction ? "Turn: Boss" : "Next turn: Player");
+        if (playerAction == true && passive == true){
+            turnBar.setText("Turn: Player");
+        }
+        else{
+            turnBar.setText("Turn: Boss");
+        }
+
+        if(!playerAction == true && !passive == true){
+            nextTurn.setText("Turn: Boss");
+        }
+        else{
+            nextTurn.setText("Turn: Player");
+        }
         
     }
 
@@ -418,7 +430,7 @@ public class Game extends Application {
     if (currentBattle != boss) return;
 
     javafx.animation.PauseTransition delay =
-            new javafx.animation.PauseTransition(javafx.util.Duration.seconds(2));
+            new javafx.animation.PauseTransition(javafx.util.Duration.seconds(0.5));
 
     delay.setOnFinished(e -> {
 
