@@ -219,7 +219,10 @@ public class Game extends Application {
 
         rtButton.setOnAction(e -> stage.setScene(menu));
 
-        ultimateAttack.setOnAction(e -> { if (startingEnergy < maxEnergy) return; stage.setScene(ultimateMenu); });
+        ultimateAttack.setOnAction(e -> { if (startingEnergy < maxEnergy) return; stage.setScene(boss); });
+        ultimateAttack.setOnAction(e -> {if (startingEnergy >= maxEnergy) return; stage.setScene(ultimateMenu)}
+        ultAttack.setOnAction(e-> {if (startingEnergy < maxEnergy) return; stage.setScene(boss)};
+        ultAttack.setOnAction(e -> {if (startingEnergy >= maxEnergy) return; stage.setScene(ultimateMenu)};
 
         basicAttack.setOnAction(e -> {basicAttack(); refreshUi();});
         specialAttack.setOnAction(e -> {specialAttack(); refreshUi();});
