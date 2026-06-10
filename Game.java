@@ -16,33 +16,41 @@ public class Game extends Application {
     Scene boss;
     Scene ultimateMenu;
 
+    Scene currentBattle;
+
     int dummyHP = 100000000;
     int playerHP = 1200;
     int bossHP = 5000;
+
     int stageBuffs = 4;
+
     int startingSkillPoints = 3;
     int minSkillPoints = 0;
     int maxSkillPoints = 5;
+
     int startingEnergy = 0;
     int minEnergy = 0;
     int maxEnergy = 100;
+
     int basicAttackDmg = 20;
     int specialAttackDmg = 30;
     int ultimateAttackDmg = 100;
     int ultimateAttackShield = 20;
     int ultimateAttackHeal = 100;
-    int passiveBar = 0;
-    double bossPhase2Buffs = 1.25;
+
     boolean playerAction = true;
 
     Label tutorialPlayerHpLabel;
     Label bossPlayerHpLabel;
     Label bossHpLabel;
     Label dummyHpLabel;
+
     Label tutorialSkillPointLabel;
     Label tutorialEnergyLabel;
+
     Label bossSkillPointLabel;
     Label bossEnergyLabel;
+
     Label ultLabel;
 
     @Override
@@ -59,8 +67,7 @@ public class Game extends Application {
 
         Button exitButton = new Button("Exit");
         exitButton.setStyle("-fx-font-size: 30;");
-        exitButton.setOnAction(e -> {System.exit(0);
-        });
+        exitButton.setOnAction(e -> {System.exit(0);});
 
         VBox menuSpacing = new VBox(25);
         menuSpacing.getChildren().addAll(titlePage, startButton, settingButton, exitButton);
@@ -81,7 +88,7 @@ public class Game extends Application {
 
         setting = new Scene(settingOptions, 900, 600);
 
-
+        
         Label stageSelectionPage = new Label("Stage Selection");
         stageSelectionPage.setStyle("-fx-font-size: 50;");
 
@@ -99,9 +106,8 @@ public class Game extends Application {
 
         stages = new Scene(stageLayout, 900, 600);
 
-
+        
         Label gameStage = new Label("Tutorial Stage");
-
         gameStage.setStyle("-fx-font-size: 50;");
 
         Button basicAttack = new Button("Basic Attack");
@@ -113,21 +119,29 @@ public class Game extends Application {
         Button ultimateAttack = new Button("Ultimate Attack");
         ultimateAttack.setStyle("-fx-font-size: 30;");
 
-
         tutorialPlayerHpLabel = new Label("Player HP: " + playerHP);
 
-        dummyHpLabel = new Label("Dummy Hp: Inf");
+        dummyHpLabel = new Label("Dummy HP: Inf");
 
-        tutorialSkillPointLabel = new Label("Skill points: " + startingSkillPoints);
+        tutorialSkillPointLabel = new Label("Skill Points: " + startingSkillPoints);
 
         tutorialEnergyLabel = new Label("Energy: " + startingEnergy);
 
         VBox tutorialLayout = new VBox(25);
-        tutorialLayout.getChildren().addAll(gameStage, basicAttack, specialAttack, ultimateAttack, tutorialPlayerHpLabel, dummyHpLabel, tutorialSkillPointLabel, tutorialEnergyLabel);
+        tutorialLayout.getChildren().addAll(
+            gameStage,
+            basicAttack,
+            specialAttack,
+            ultimateAttack,
+            tutorialPlayerHpLabel,
+            dummyHpLabel,
+            tutorialSkillPointLabel,
+            tutorialEnergyLabel
+        );
 
         tutorial = new Scene(tutorialLayout, 900, 600);
 
-
+        
         Label bossPage = new Label("Boss Stage");
         bossPage.setStyle("-fx-font-size: 50");
 
@@ -144,154 +158,158 @@ public class Game extends Application {
 
         bossHpLabel = new Label("Boss HP: " + bossHP);
 
-        bossSkillPointLabel = new Label("Skill points: " + startingSkillPoints);
+        bossSkillPointLabel = new Label("Skill Points: " + startingSkillPoints);
 
         bossEnergyLabel = new Label("Energy: " + startingEnergy);
 
         VBox bossLayout = new VBox(25);
-        bossLayout.getChildren().addAll(bossPage, bAttack, spAttack, ultAttack, bossPlayerHpLabel, bossHpLabel, bossSkillPointLabel, bossEnergyLabel );
-        
+        bossLayout.getChildren().addAll(
+            bossPage,
+            bAttack,
+            spAttack,
+            ultAttack,
+            bossPlayerHpLabel,
+            bossHpLabel,
+            bossSkillPointLabel,
+            bossEnergyLabel
+        );
+
         boss = new Scene(bossLayout, 900, 600);
 
+        
+        ultLabel = new Label("Choose an ultimate type");
 
-        Label ultLabel = new Label("Choose an ultimate type");
-
-        Button damageUlt = new Button("Damage ult, deals big dmg");
-        Button healingUlt = new Button("Healing ult, heals for 100 hp and gives shield ");
+        Button damageUlt = new Button("Damage Ult, deals big dmg");
+        Button healingUlt = new Button("Healing Ult");
 
         VBox ultimateLayout = new VBox(25);
-        ultimateLayout.getChildren().addAll(ultLabel, damageUlt, healingUlt);
+        ultimateLayout.getChildren().addAll(
+            ultLabel,
+            damageUlt,
+            healingUlt
+        );
 
         ultimateMenu = new Scene(ultimateLayout, 900, 600);
 
-
+        
         startButton.setOnAction(e -> stage.setScene(stages));
 
         settingButton.setOnAction(e -> stage.setScene(setting));
 
         returnButton.setOnAction(e -> stage.setScene(menu));
 
-        tutorialStage.setOnAction(e -> stage.setScene(tutorial));
+        tutorialStage.setOnAction(e -> {
+            currentBattle = tutorial;
+            stage.setScene(tutorial);
+        });
 
-        bossStage.setOnAction(e -> stage.setScene(boss));
+        bossStage.setOnAction(e -> {
+            currentBattle = boss;
+            stage.setScene(boss);
+        });
 
         rtButton.setOnAction(e -> stage.setScene(menu));
 
         ultimateAttack.setOnAction(e -> stage.setScene(ultimateMenu));
 
+        basicAttack.setOnAction(e -> {basicAttack(); refreshUi();});
 
+        specialAttack.setOnAction(e -> {specialAttack(); refreshUi();});
 
-        basicAttack.setOnAction(e -> {basicAttack(); refreshUi(); });
+        bAttack.setOnAction(e -> {basicAttack(); refreshUi();});
 
-        specialAttack.setOnAction(e -> {specialAttack(); refreshUi(); });
+        spAttack.setOnAction(e -> {specialAttack(); refreshUi();});
 
-        bAttack.setOnAction(e -> {basicAttack(); refreshUi(); });
+        damageUlt.setOnAction(e -> {
 
-        spAttack.setOnAction(e -> {specialAttack(); refreshUi(); });
+            if (startingEnergy >= maxEnergy) {
 
-        ultAttack.setOnAction(e -> {ultimateAttack(); refreshUi(); });
+                dummyHP -= 300;
+                bossHP -= 300 * stageBuffs;
 
-        stage.setTitle("Untitled");
+                startingEnergy = 0;
+
+                bossHP = Math.max(0, bossHP);
+
+                refreshUi();
+
+                stage.setScene(currentBattle);
+            }
+        });
+
+        healingUlt.setOnAction(e -> {
+
+            if (startingEnergy >= maxEnergy) {
+
+                playerHP += 100;
+
+                startingEnergy = 0;
+
+                refreshUi();
+
+                stage.setScene(currentBattle);
+            }
+        });
+
         stage.setScene(menu);
+        stage.setTitle("Untitled");
         stage.show();
     }
 
-
     public void refreshUi() {
 
-    if (tutorialPlayerHpLabel != null)
-        tutorialPlayerHpLabel.setText("Player HP: " + playerHP);
+        if (tutorialPlayerHpLabel != null)
+            tutorialPlayerHpLabel.setText("Player HP: " + playerHP);
 
-    if (dummyHpLabel != null)
-        dummyHpLabel.setText("Dummy HP: " + dummyHP);
+        if (dummyHpLabel != null)
+            dummyHpLabel.setText("Dummy HP: " + dummyHP);
 
-    if (bossPlayerHpLabel != null)
-        bossPlayerHpLabel.setText("Player HP: " + playerHP);
+        if (bossPlayerHpLabel != null)
+            bossPlayerHpLabel.setText("Player HP: " + playerHP);
 
-    if (bossHpLabel != null)
-        bossHpLabel.setText("Boss HP: " + bossHP);
+        if (bossHpLabel != null)
+            bossHpLabel.setText("Boss HP: " + bossHP);
 
-    if (tutorialSkillPointLabel != null)
-    tutorialSkillPointLabel.setText("Skill Points: " + startingSkillPoints);
+        if (tutorialSkillPointLabel != null)
+            tutorialSkillPointLabel.setText("Skill Points: " + startingSkillPoints);
 
-    if (tutorialEnergyLabel != null)
-    tutorialEnergyLabel.setText("Energy: " + startingEnergy);
+        if (tutorialEnergyLabel != null)
+            tutorialEnergyLabel.setText("Energy: " + startingEnergy);
 
-    if (bossSkillPointLabel != null)
-    bossSkillPointLabel.setText("Skill Points: " + startingSkillPoints);
+        if (bossSkillPointLabel != null)
+            bossSkillPointLabel.setText("Skill Points: " + startingSkillPoints);
 
-    if (bossEnergyLabel != null)
-    bossEnergyLabel.setText("Energy: " + startingEnergy);
-
+        if (bossEnergyLabel != null)
+            bossEnergyLabel.setText("Energy: " + startingEnergy);
     }
 
-   public void basicAttack() {
+    public void basicAttack() {
 
-    dummyHP -= basicAttackDmg;
-    bossHP -= basicAttackDmg * stageBuffs;
+        dummyHP -= basicAttackDmg;
+        bossHP -= basicAttackDmg * stageBuffs;
 
-    startingSkillPoints = Math.min(startingSkillPoints + 1, maxSkillPoints);
-
-    startingEnergy = Math.min(startingEnergy + 25, maxEnergy);
-
-    bossHP = Math.max(0, bossHP);
-
-    playerAction = false;
-
-    if (bossHP == 0) {
-        System.out.println("Boss Defeated!");
-    }
-}
-
-   public void specialAttack() {
-
-    if (startingSkillPoints > minSkillPoints) {
-
-        dummyHP -= specialAttackDmg;
-        bossHP -= specialAttackDmg * stageBuffs;
-
-        startingSkillPoints--;
-
-        startingEnergy = Math.min(startingEnergy + 30, maxEnergy);
+        startingSkillPoints = Math.min(startingSkillPoints + 1, maxSkillPoints);
+        startingEnergy = Math.min(startingEnergy + 25, maxEnergy);
 
         bossHP = Math.max(0, bossHP);
+    }
 
-        playerAction = false;
+    public void specialAttack() {
 
-        if (bossHP == 0) {
-            System.out.println("Boss Defeated!");
+        if (startingSkillPoints > minSkillPoints) {
+
+            dummyHP -= specialAttackDmg;
+            bossHP -= specialAttackDmg * stageBuffs;
+
+            startingSkillPoints--;
+
+            startingEnergy = Math.min(startingEnergy + 30, maxEnergy);
+
+            bossHP = Math.max(0, bossHP);
         }
     }
-}
-
-    
-   public void ultimateAttack() {
-
-    if (startingEnergy >= maxEnergy) {
-
-        dummyHP -= ultimateAttackDmg;
-        bossHP -= ultimateAttackDmg * stageBuffs;
-
-        startingEnergy = minEnergy;
-
-        playerHP += ultimateAttackHeal;
-
-        bossHP = Math.max(0, bossHP);
-
-        if (bossHP == 0) {
-            System.out.println("Boss Defeated!");
-        }
-    }
-}
-
-
 
     public static void main(String[] args) {
         launch(args);
     }
 }
-
-
-
-
-
