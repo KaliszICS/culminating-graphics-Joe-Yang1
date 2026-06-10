@@ -174,7 +174,7 @@ public class Game extends Application {
         turnBar = new Label("Turn: Player");
         turnBar.setStyle("-fx-font-size: 20");
 
-        nextTurn = new Label("Next turn:");
+        nextTurn = new Label("Next turn: Boss");
         nextTurn.setStyle("-fx-font-size: 20");
 
         actionBox.getChildren().addAll(turnBar, nextTurn);
@@ -357,7 +357,6 @@ public class Game extends Application {
             if (passive){
                 passive = false;
                 playerAction = true;
-                chaningTurns();
                 refreshUi();
                 return;
             }
