@@ -5,6 +5,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 
 public class Game extends Application {
 
@@ -30,6 +32,10 @@ public class Game extends Application {
     int basicAttackDmg = 20;
     int specialAttackDmg = 30;
     int ultimateAttackDmg = 100;
+    int bossBasicAttack = 100;
+    int bossHeavyAttack = 200;
+    int bossSpecialAttack = 400;
+    boolean playerAction = true;
     boolean settingsFromBattle = false;
 
     Label tutorialPlayerHpLabel;
@@ -274,15 +280,8 @@ public class Game extends Application {
 
     public void basicAttack() {
 
+        if (!playerAction) return;
         int dmg = basicAttackDmg;
-
-        if (currentBattle == tutorial) {
-            if (playerShield > 0) {
-                int absorb = Math.min(playerShield, dmg);
-                playerShield -= absorb;
-                dmg -= absorb;
-            }
-        }
 
         bossHP -= dmg * stageBuffs;
 
@@ -290,21 +289,15 @@ public class Game extends Application {
         startingEnergy = Math.min(startingEnergy + 25, maxEnergy);
 
         bossHP = Math.max(0, bossHP);
+        playerAction = false;
     }
 
     public void specialAttack() {
 
+        if (!playerAction) return;
         if (startingSkillPoints > minSkillPoints) {
 
             int dmg = specialAttackDmg;
-
-            if (currentBattle == tutorial) {
-                if (playerShield > 0) {
-                    int absorb = Math.min(playerShield, dmg);
-                    playerShield -= absorb;
-                    dmg -= absorb;
-                }
-            }
 
             bossHP -= dmg * stageBuffs;
 
@@ -312,8 +305,84 @@ public class Game extends Application {
             startingEnergy = Math.min(startingEnergy + 30, maxEnergy);
 
             bossHP = Math.max(0, bossHP);
+            playerAction = false;
         }
     }
+
+    public void bossBAttack(){
+
+            int dmg = bossBasicAttack;
+
+            if (playerShield > 0){
+                int absorb = Math.min(playerShield, dmg);
+                playerShield -= absorb;
+                dmg -= absorb;
+            }
+
+            playerHP -= dmg;
+
+            playerHP = Math.max(0, playerHP);
+        }
+
+    public void bossHAttack(){
+
+        int dmg = bossHeavyAttack;
+
+        if (playerShield > 0){
+            int absorb = Math.min(playerShield, dmg);
+            playerShield -= absorb;
+            dmg -= absorb;
+        }
+        
+        playerHP -= dmg;
+
+        playerHP = Math.max(0, playerHP);
+    }
+
+    public void bossSpAttack(){
+
+        int dmg = bossSpecialAttack;
+
+        if (playerShield > 0){
+            int absorb = Math.min(playerShield, dmg);
+            playerShield -= absorb;
+            dmg -= absorb;
+        }
+        
+        playerHP -= dmg;
+
+        playerHP = Math.max(0, playerHP);
+    }
+
+
+    public void bossActions() {
+
+    if (currentBattle != boss) return;
+
+    javafx.animation.PauseTransition delay =
+            new javafx.animation.PauseTransition(javafx.util.Duration.seconds(3));
+
+    delay.setOnFinished(e -> {
+
+        int bossAttackAction = (int)(Math.random() * 3);
+
+        if (bossAttackAction == 0) {
+            bossBAttack();
+        } 
+        else if (bossAttackAction == 1) {
+            bossHAttack();
+        } 
+        else {
+            bossSpAttack();
+        }
+
+        playerAction = true;
+        refreshUi();
+    });
+
+    delay.play();
+}
+
 
     public static void main(String[] args) {
         launch(args);
