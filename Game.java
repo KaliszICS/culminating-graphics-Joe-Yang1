@@ -49,6 +49,7 @@ public class Game extends Application {
     Label tutorialEnergyLabel;
     Label bossSkillPointLabel;
     Label bossEnergyLabel;
+    Label passiveLabel;
 
     @Override
     public void start(Stage stage){
@@ -102,7 +103,7 @@ public class Game extends Application {
 
         stages = new Scene(stageLayout, 900, 600);
 
-        
+
         Label gameStage = new Label("Tutorial Stage");
         gameStage.setStyle("-fx-font-size: 50;");
 
@@ -120,9 +121,10 @@ public class Game extends Application {
         dummyHpLabel = new Label("Dummy HP: Inf");
         tutorialSkillPointLabel = new Label("Skill Points: " + startingSkillPoints);
         tutorialEnergyLabel = new Label("Energy: " + startingEnergy);
+        passiveLabel = new Label("Passive: " + passive);
 
         VBox tutorialLayout = new VBox(25);
-        tutorialLayout.getChildren().addAll(gameStage, basicAttack, specialAttack, ultimateAttack, tutorialPlayerHpLabel, tutorialPlayerShieldLabel, dummyHpLabel, tutorialSkillPointLabel, tutorialEnergyLabel);
+        tutorialLayout.getChildren().addAll(gameStage, basicAttack, specialAttack, ultimateAttack, tutorialPlayerHpLabel, tutorialPlayerShieldLabel, dummyHpLabel, tutorialSkillPointLabel, tutorialEnergyLabel, passiveLabel);
 
         tutorial = new Scene(tutorialLayout, 900, 600);
 
@@ -143,9 +145,10 @@ public class Game extends Application {
         bossPlayerShieldLabel = new Label("Shield: " + playerShield);
         bossSkillPointLabel = new Label("Skill Points: " + startingSkillPoints);
         bossEnergyLabel = new Label("Energy: " + startingEnergy);
+        passiveLabel = new Label("Passive: " + passive);
 
         VBox bossLayout = new VBox(25);
-        bossLayout.getChildren().addAll(bossPage, bAttack, spAttack, ultAttack, bossPlayerHpLabel, bossPlayerShieldLabel, bossHpLabel, bossSkillPointLabel, bossEnergyLabel);
+        bossLayout.getChildren().addAll(bossPage, bAttack, spAttack, ultAttack, bossPlayerHpLabel, bossPlayerShieldLabel, bossHpLabel, bossSkillPointLabel, bossEnergyLabel, passiveLabel);
 
         boss = new Scene(bossLayout, 900, 600);
 
