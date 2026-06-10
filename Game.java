@@ -264,7 +264,7 @@ public class Game extends Application {
 
 
         leave.setOnAction(e -> stage.setScene(stages));
-
+        defLeave.setOnAction(e -> stage.setScene(stages));
         tutorialStage.setOnAction(e -> { currentBattle = tutorial; refreshUi(); stage.setScene(tutorial); tutorial.getRoot().requestFocus(); });
 
         bossStage.setOnAction(e -> { currentBattle = boss; refreshUi(); stage.setScene(boss); boss.getRoot().requestFocus(); });
