@@ -14,6 +14,7 @@ public class Game extends Application {
     Scene combat;
     Scene tutorial;
     Scene boss;
+    Scene ultimateMenu;
 
     int dummyHP = 100000000;
     int playerHP = 1200;
@@ -21,7 +22,7 @@ public class Game extends Application {
     int stageBuffs = 4;
     int startingSkillPoints = 3;
     int minSkillPoints = 0;
-    int maxSkillPoints = 6;
+    int maxSkillPoints = 5;
     int startingEnergy = 0;
     int minEnergy = 0;
     int maxEnergy = 100;
@@ -42,6 +43,7 @@ public class Game extends Application {
     Label tutorialEnergyLabel;
     Label bossSkillPointLabel;
     Label bossEnergyLabel;
+    Label ultLabel;
 
     @Override
     public void start(Stage stage){
@@ -152,6 +154,17 @@ public class Game extends Application {
         boss = new Scene(bossLayout, 900, 600);
 
 
+        Label ultLabel = new Label("Choose an ultimate type");
+
+        Button damageUlt = new Button("Damage ult, deals big dmg");
+        Button healingUlt = new Button("Healing ult, heals for 100 hp and gives shield ");
+
+        VBox ultimateLayout = new VBox(25);
+        ultimateLayout.getChildren().addAll(ultLabel, damageUlt, healingUlt);
+
+        ultimateMenu = new Scene(ultimateLayout, 900, 600);
+
+
         startButton.setOnAction(e -> stage.setScene(stages));
 
         settingButton.setOnAction(e -> stage.setScene(setting));
@@ -164,13 +177,13 @@ public class Game extends Application {
 
         rtButton.setOnAction(e -> stage.setScene(menu));
 
+        ultimateAttack.setOnAction(e -> stage.setScene(ultimateMenu));
+
 
 
         basicAttack.setOnAction(e -> {basicAttack(); refreshUi(); });
 
         specialAttack.setOnAction(e -> {specialAttack(); refreshUi(); });
-
-        ultimateAttack.setOnAction(e -> {ultimateAttack(); refreshUi(); });
 
         bAttack.setOnAction(e -> {basicAttack(); refreshUi(); });
 
@@ -251,6 +264,7 @@ public class Game extends Application {
     }
 }
 
+    
    public void ultimateAttack() {
 
     if (startingEnergy >= maxEnergy) {
@@ -263,8 +277,6 @@ public class Game extends Application {
         playerHP += ultimateAttackHeal;
 
         bossHP = Math.max(0, bossHP);
-
-        playerAction = false;
 
         if (bossHP == 0) {
             System.out.println("Boss Defeated!");
