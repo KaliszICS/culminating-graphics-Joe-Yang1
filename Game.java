@@ -70,8 +70,11 @@ public class Game extends Application {
     Label turnBar;
     Label tips;
 
+    private Stage defStage;
+
     @Override
     public void start(Stage stage){
+        defStage = stage;
 
         Label titlePage = new Label("Untitled");
         titlePage.setStyle("-fx-font-size: 50;");
@@ -218,7 +221,7 @@ public class Game extends Application {
         defeatLayout.getChildren().addAll(defeatLabel, leave, retry);
 
         defeatMenuScene = new Scene(defeatLayout, 600, 300);
-        
+
 
         startButton.setOnAction(e -> stage.setScene(stages));
         retry.setOnAction(e -> stage.setScene(currentBattle));
@@ -435,6 +438,11 @@ public class Game extends Application {
             playerHP -= dmg;
 
             playerHP = Math.max(0, playerHP);
+
+            if (playerHP <= 0){
+                defeat();
+                return;
+            }
         }
 
     public void bossHAttack(){
@@ -465,6 +473,11 @@ public class Game extends Application {
         playerHP -= dmg;
 
         playerHP = Math.max(0, playerHP);
+
+        if (playerHP <= 0){
+            defeat();
+            return;
+        }
     }
 
 
@@ -489,6 +502,11 @@ public class Game extends Application {
             bossSpAttack();
         }
 
+        if (playerHP <= 0){
+            defeat();
+            return;
+        }
+
         playerAction = true;
         changingTurns();
         refreshUi();
@@ -498,11 +516,8 @@ public class Game extends Application {
     }
 
     public void defeat(){
-       
-
-
+       defStage.setScene(defeatMenuScene);
     }
-
 
     public static void main(String[] args) {
         launch(args);
