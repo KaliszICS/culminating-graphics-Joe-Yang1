@@ -33,6 +33,7 @@ public class Game extends Application {
     Scene ultimateMenu;
     Scene currentBattle;
     Scene battleSetting;
+    Scene defeatMenuScene;
 
     int dummyHP = 100000000;
     int playerHP = 1200;
@@ -68,7 +69,6 @@ public class Game extends Application {
     Label passiveLabel;
     Label turnBar;
     Label tips;
-
 
     @Override
     public void start(Stage stage){
@@ -199,7 +199,7 @@ public class Game extends Application {
         Button battleSettings = new Button("Settings");
         battleSettings.setStyle("-fx-font-size: 30");
 
-        Button leave = new Button("Flee the battle");
+        Button leave = new Button("Leave the battle");
         leave.setStyle("-fx-font-size: 30");
 
         VBox pause = new VBox(25);
@@ -208,7 +208,20 @@ public class Game extends Application {
 
         battleSetting = new Scene(pause, 900, 600);
 
+        Label defeatLabel = new Label("You have been defeated");
+        defeatLabel.setStyle("-fx-font-size: 50");
+
+        Button retry = new Button("Retry");
+        retry.setStyle("-fx-font-size: 30");
+
+        VBox defeatLayout = new VBox(25);
+        defeatLayout.getChildren().addAll(defeatLabel, leave, retry);
+
+        defeatMenuScene = new Scene(defeatLayout, 600, 300);
+        
+
         startButton.setOnAction(e -> stage.setScene(stages));
+        retry.setOnAction(e -> stage.setScene(currentBattle));
         settingButton.setOnAction(e -> { settingsFromBattle = false; stage.setScene(setting); });
 
         battleSettings.setOnAction(e -> { settingsFromBattle = true; stage.setScene(setting); });
@@ -485,10 +498,11 @@ public class Game extends Application {
     }
 
     public void defeat(){
-        if(playerHP == 0){
-            defeat();
-        }
+       
+
+
     }
+
 
     public static void main(String[] args) {
         launch(args);
